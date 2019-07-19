@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import styled from "styled-components";
 import { FaVolumeUp, FaVolumeDown, FaVolumeOff } from "react-icons/fa";
 import PT from "prop-types";
@@ -25,4 +25,4 @@ Volumes.propTypes = {
   toggleMuteValue: PT.func
 };
 
-export default memo(Volumes);
+export default Volumes;

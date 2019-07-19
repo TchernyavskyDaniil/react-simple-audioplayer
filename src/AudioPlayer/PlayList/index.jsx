@@ -12,20 +12,28 @@ const List = styled.ul`
   list-style: none;
 `;
 
-const PlayList = ({ playlist, setIndexCurrentAudio }) => (
-  <List>
-    {playlist.map(({ id, title, author, img }) => (
-      <PlayItem
-        key={id}
-        id={id}
-        title={title}
-        author={author}
-        img={img}
-        setIndexCurrentAudio={setIndexCurrentAudio}
-      />
-    ))}
-  </List>
-);
+const PlayList = ({ playlist, setActiveAudio, setIndexCurrentAudio }) => {
+  const getNewActiveAudio = (currentIndex, audioProps) => {
+    setIndexCurrentAudio(currentIndex);
+    setActiveAudio(audioProps);
+  };
+
+  return (
+    <List>
+      {playlist.map(({ id, title, author, img, url }) => (
+        <PlayItem
+          key={id}
+          id={id}
+          title={title}
+          author={author}
+          img={img}
+          url={url}
+          getNewActiveAudio={getNewActiveAudio}
+        />
+      ))}
+    </List>
+  );
+};
 
 PlayList.defaultProps = {
   playlist: []

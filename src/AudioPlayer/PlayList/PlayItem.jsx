@@ -17,8 +17,10 @@ const AudioImage = styled.img`
   border-radius: 50%;
 `;
 
-const PlayItem = ({ id, title, author, img, setIndexCurrentAudio }) => (
-  <Container onClick={() => setIndexCurrentAudio(id - 1)}>
+const PlayItem = ({ id, title, author, img, url, getNewActiveAudio }) => (
+  <Container
+    onClick={() => getNewActiveAudio(id - 1, { title, author, img, url })}
+  >
     <Title> {title} </Title>
     <Author> {author} </Author>
     <AudioImage src={img} />
@@ -26,15 +28,12 @@ const PlayItem = ({ id, title, author, img, setIndexCurrentAudio }) => (
 );
 
 PlayItem.defaultProps = {
-  ...audioDefaultProps,
-  setIndexCurrentAudio: () => {},
-  id: 0
+  ...audioDefaultProps
 };
 
 PlayItem.propTypes = {
   ...audioPropTypes,
-  setIndexCurrentAudio: PT.func,
-  id: PT.number
+  getNewActiveAudio: PT.func
 };
 
 export default PlayItem;

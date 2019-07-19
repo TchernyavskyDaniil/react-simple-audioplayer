@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import styled from "styled-components";
 import PT from "prop-types";
 
@@ -48,4 +48,4 @@ ProgressAudio.propTypes = {
   changeValueAudio: PT.func
 };
 
-export default memo(ProgressAudio);
+export default ProgressAudio;

@@ -2,7 +2,8 @@ import React, {
   useCallback,
   useEffect,
   useLayoutEffect,
-  useState
+  useState,
+  useMemo
 } from "react";
 import styled from "styled-components";
 import { FaFastBackward, FaFastForward, FaPause, FaPlay } from "react-icons/fa";
@@ -36,7 +37,7 @@ const Settings = styled.div`
 
 const Controls = ({ url, setPrevAudio, setNextAudio }) => {
   const [audio, setAudio] = useState(null);
-  const [isPlayed, setPlayedStatus] = useState(false);
+  const [isPlayed, setPlayedStatus] = useState(true);
   const [audioDuration, setAudioDuration] = useState("0:00");
   const [currentTime, setCurrentTime] = useState("0:00");
   const [progressValue, setProgressValue] = useState(0);
@@ -46,9 +47,10 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
   // When changed audio
   const loadNextAudio = useCallback(() => {
     if (audio) {
-      setPlayedStatus(false);
+      setPlayedStatus(true);
       audio.pause();
       audio.load();
+      audio.play();
     }
   }, [url]);
 
@@ -71,7 +73,12 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
 
   // After DOM
   useLayoutEffect(() => {
-    setAudio(document.getElementById("audio-player"));
+    const audioElement = document.getElementById("audio-player");
+
+    audioElement.load();
+    audioElement.play();
+
+    setAudio(audioElement);
   }, []);
 
   // Get next audio
@@ -84,8 +91,9 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
   }, [audioDuration, setDuration]);
 
   // Toggle play/pause
+  // currentTime checked for not first render
   useEffect(() => {
-    if (audioDuration === currentTime) {
+    if (audioDuration === currentTime && currentTime !== "0:00") {
       setPlayedStatus(false);
     }
   }, [audioDuration, currentTime]);
@@ -124,6 +132,26 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
     setTimeout(() => setIsChangedRange(false), 100);
   };
 
+  const renderProgressAudio = useMemo(
+    () => (
+      <ProgressAudio
+        audioDuration={audioDuration}
+        currentTime={currentTime}
+        progressValue={progressValue}
+        changeValueAudio={changeValueAudio}
+      />
+    ),
+    [audioDuration, currentTime, progressValue]
+  );
+
+  // Because render Progress Audio every second update value
+  const renderVolumes = useMemo(
+    () => (
+      <Volumes volumeCount={+volumeCount} toggleMuteValue={toggleMuteValue} />
+    ),
+    [volumeCount]
+  );
+
   return (
     <Container>
       <AudioControls>
@@ -147,22 +175,14 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
               <FaFastForward onClick={setNextAudio} />
             </Settings>
             <ContainerVolumeRange>
-              <Volumes
-                volumeCount={+volumeCount}
-                toggleMuteValue={toggleMuteValue}
-              />
+              {renderVolumes}
               <VolumeRange
                 type="range"
                 onChange={handleValue}
                 value={volumeCount}
               />
             </ContainerVolumeRange>
-            <ProgressAudio
-              audioDuration={audioDuration}
-              currentTime={currentTime}
-              progressValue={progressValue}
-              changeValueAudio={changeValueAudio}
-            />
+            {renderProgressAudio}
           </>
         )}
       </AudioControls>
