@@ -6,9 +6,9 @@ import React, {
   useState
 } from "react";
 import styled from "styled-components";
-import { FaFastBackward, FaFastForward, FaPause, FaPlay } from "react-icons/fa";
+import { FaFastBackward, FaFastForward, FaPause, FaPlay, FaVolumeUp, FaVolumeDown, FaVolumeOff } from "react-icons/fa";
 
-import { fancyTimeFormat } from "../utils";
+import { fancyTimeFormat } from "../../utils";
 
 import ProgressAudio from "./ProgressAudio";
 
@@ -20,9 +20,21 @@ const Container = styled.div`
 
 const AudioControls = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  flex-direction: column;
   padding: 0 10px;
+`;
+
+const ContainerVolumeRange = styled.div``;
+
+const VolumeRange = styled.input``;
+
+const Settings = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+
+const Volumes = styled.div`
+  min-height: 25px;
 `;
 
 const Controls = ({ url, setPrevAudio, setNextAudio }) => {
@@ -31,6 +43,7 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
   const [audioDuration, setAudioDuration] = useState("0:00");
   const [currentTime, setCurrentTime] = useState("0:00");
   const [progressPercent, setProgressPercent] = useState(0);
+  const [valueSound, setValueSound] = useState(100);
 
   // When changed audio
   const loadNextAudio = useCallback(() => {
@@ -42,7 +55,7 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
   }, [url]);
 
   const setDuration = useCallback(() => {
-    if (audio) {
+    if (audio && audio.duration) {
       setAudioDuration(fancyTimeFormat(audio.duration));
     }
   }, [audio]);
@@ -66,7 +79,7 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
 
   //
   useEffect(() => {
-    if (audio) {
+    if (audio && audio.duration) {
       setDuration();
     }
   }, [audioDuration, setDuration]);
@@ -88,6 +101,13 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
     setPlayedStatus(false);
   };
 
+  const handleValue = e => {
+    setValueSound(e.target.value);
+
+    // Max audio volume - 1, min - 0
+    audio.volume = e.target.value / 100;
+  };
+
   return useMemo(
     () => (
       <Container>
@@ -100,13 +120,31 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
           >
             <source src={url} type="audio/ogg" />
           </audio>
-          <FaFastBackward onClick={setPrevAudio} />
-          {isPlayed ? (
-            <FaPause onClick={handlePause} />
-          ) : (
-            <FaPlay onClick={handlePlay} />
+          {audio && (
+            <>
+              <Settings>
+                <FaFastBackward onClick={setPrevAudio} />
+                {isPlayed ? (
+                  <FaPause onClick={handlePause} />
+                ) : (
+                  <FaPlay onClick={handlePlay} />
+                )}
+                <FaFastForward onClick={setNextAudio} />
+              </Settings>
+              <ContainerVolumeRange>
+                <Volumes>
+                  {valueSound > 50 && <FaVolumeUp />}
+                  {valueSound < 50 && valueSound > 10 && <FaVolumeDown />}
+                  {valueSound < 10 && <FaVolumeOff />}
+                </Volumes>
+                <VolumeRange
+                  type="range"
+                  onChange={handleValue}
+                  defaultValue={100}
+                />
+              </ContainerVolumeRange>
+            </>
           )}
-          <FaFastForward onClick={setNextAudio} />
         </AudioControls>
         <ProgressAudio
           audioDuration={audioDuration}
@@ -115,7 +153,7 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
         />
       </Container>
     ),
-    [url, isPlayed, audioDuration, currentTime, progressPercent]
+    [url, isPlayed, audioDuration, currentTime, progressPercent, audio, valueSound]
   );
 };
 

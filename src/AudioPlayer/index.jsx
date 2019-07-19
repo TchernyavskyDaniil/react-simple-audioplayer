@@ -4,10 +4,11 @@ import styled from "styled-components";
 import { fakeFetchPlaylist } from "../store/mockList";
 
 import Header from "./Header";
+import PlayList from "./PlayList";
 
 const Container = styled.div``;
 
-const Player = () => {
+const AudioPlayer = () => {
   const [playlist, setPlaylist] = useState([]);
   const [indexCurrentAudio, setIndexCurrentAudio] = useState(0);
 
@@ -44,10 +45,11 @@ const Player = () => {
         setPrevAudio={setPrevAudio}
         setNextAudio={setNextAudio}
       />
+      <PlayList playlist={playlist} setIndexCurrentAudio={setIndexCurrentAudio} />
     </Container>
   ) : (
     <span> Loading data </span>
   );
 };
 
-export default Player;
+export default AudioPlayer;

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import PT from "prop-types";
 
-import Controls from "./Controls";
+import { audioDefaultProps, audioPropTypes } from "../utils";
+
+import Controls from "./PlayerSettings/Controls";
 
 const Container = styled.div``;
 
@@ -37,18 +38,8 @@ const Header = ({ title, author, url, img, setNextAudio, setPrevAudio }) => {
   );
 };
 
-Header.defaultProps = {
-  title: "Default title",
-  author: "Default author",
-  url: "default url",
-  img: "default img"
-};
+Header.defaultProps = audioDefaultProps;
 
-Header.propTypes = {
-  title: PT.string,
-  author: PT.string,
-  url: PT.string,
-  img: PT.string
-};
+Header.propTypes = audioPropTypes;
 
 export default Header;

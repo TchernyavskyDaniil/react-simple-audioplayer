@@ -44,8 +44,8 @@
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "yarn start lint",
-      "yarn start fix-code"
+      "yarn run lint",
+      "yarn run fix-code"
     ]
   },
   "eslintConfig": {

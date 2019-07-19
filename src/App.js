@@ -1,6 +1,6 @@
 import React from "react";
 
-import Player from "./Player";
+import AudioPlayer from "./AudioPlayer";
 
 const App = () => {
   return (
@@ -9,7 +9,7 @@ const App = () => {
         <span> header audio player </span>
       </header>
       <main>
-        <Player />
+        <AudioPlayer />
       </main>
       <footer>
         <span> audio player footer </span>

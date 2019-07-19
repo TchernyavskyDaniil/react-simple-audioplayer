@@ -1,6 +1,11 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import PT from "prop-types";
+
+// Magic numbers
+const difWithStyleProgress = 3;
+const difWithStyleDotted = 5;
+const maxPercentDotted = 93;
 
 const Container = styled.div`
   display: flex;
@@ -25,14 +30,14 @@ const ProgressAudio = ({ audioDuration, currentTime, progressPercent }) => {
 
   const Progress = styled.div`
     position: absolute;
-    width: ${`${progressPercent + 2}%`};
+    width: ${`${progressPercent - difWithStyleProgress}%`};
     background-color: black;
     height: 100%;
   `;
 
   const Dotted = styled.span`
     position: absolute;
-    left: ${`${progressPercent === 100 ? progressPercent - 5 : progressPercent}%`};
+    left: ${`${progressPercent >= maxPercentDotted ? maxPercentDotted : progressPercent - difWithStyleDotted}%`};
     background-color: black;
     height: 8px;
     width: 8px;
@@ -55,13 +60,13 @@ const ProgressAudio = ({ audioDuration, currentTime, progressPercent }) => {
 ProgressAudio.defaultProps = {
   audioDuration: "0:00",
   currentTime: "0:00",
-  progressPercent: '0%',
+  progressPercent: 0
 };
 
 ProgressAudio.propTypes = {
   audioDuration: PT.string,
   currentTime: PT.string,
-  progressPercent: PT.string,
+  progressPercent: PT.number
 };
 
-export default ProgressAudio;
+export default memo(ProgressAudio);

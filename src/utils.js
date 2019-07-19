@@ -1,3 +1,5 @@
+import PT from "prop-types";
+
 export const fancyTimeFormat = time => {
   // Hours, minutes and seconds
   const hrs = Math.floor(time / 3600);
@@ -16,3 +18,31 @@ export const fancyTimeFormat = time => {
 
   return ret;
 };
+
+export const defaultAudioImg =
+  "https://www.macworld.co.uk/cmsdata/features/3630990/sync_itunes_apple_music_thumb800.jpg";
+
+export const audioDefaultProps = {
+  title: "Default title",
+  author: "Default author",
+  url: "default url",
+  img: "default img"
+};
+
+export const audioPropTypes = {
+  title: PT.string,
+  author: PT.string,
+  url: PT.string,
+  img: PT.string
+};
+
+export function debounce(f, t) {
+  return function (args) {
+    let previousCall = this.lastCall;
+    this.lastCall = Date.now();
+    if (previousCall && ((this.lastCall - previousCall) <= t)) {
+      clearTimeout(this.lastCallTimer);
+    }
+    this.lastCallTimer = setTimeout(() => f(args), t);
+  }
+}
