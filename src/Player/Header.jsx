@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import PT from 'prop-types';
+import React, { useState } from "react";
+import styled from "styled-components";
+import PT from "prop-types";
 
 import Controls from "./Controls";
 
@@ -20,7 +20,7 @@ const Title = styled.span``;
 
 const Author = styled(Title)``;
 
-const PlayerHeader = ({ title, author, url, img }) => {
+const Header = ({ title, author, url, img, setNextAudio, setPrevAudio }) => {
   return (
     <Container>
       <AboutAudio>
@@ -28,23 +28,23 @@ const PlayerHeader = ({ title, author, url, img }) => {
         <Title> {title} </Title>
         <Author> {author} </Author>
       </AboutAudio>
-      <Controls url={url} />
+      <Controls url={url} setNextAudio={setNextAudio} setPrevAudio={setPrevAudio} />
     </Container>
-  )
+  );
 };
 
-PlayerHeader.defaultProps = {
-  title: 'Default title',
-  author: 'Default author',
-  url: 'default url',
-  img: 'default img',
+Header.defaultProps = {
+  title: "Default title",
+  author: "Default author",
+  url: "default url",
+  img: "default img"
 };
 
-PlayerHeader.propTypes = {
+Header.propTypes = {
   title: PT.string,
   author: PT.string,
   url: PT.string,
-  img: PT.string,
+  img: PT.string
 };
 
-export default PlayerHeader;
+export default Header;
