@@ -28,7 +28,11 @@ const Header = ({ title, author, url, img, setNextAudio, setPrevAudio }) => {
         <Title> {title} </Title>
         <Author> {author} </Author>
       </AboutAudio>
-      <Controls url={url} setNextAudio={setNextAudio} setPrevAudio={setPrevAudio} />
+      <Controls
+        url={url}
+        setNextAudio={setNextAudio}
+        setPrevAudio={setPrevAudio}
+      />
     </Container>
   );
 };

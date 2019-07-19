@@ -37,7 +37,11 @@ const Player = () => {
 
   return playlist.length ? (
     <Container>
-      <Header {...playlist[indexCurrentAudio]} setPrevAudio={setPrevAudio} setNextAudio={setNextAudio} />
+      <Header
+        {...playlist[indexCurrentAudio]}
+        setPrevAudio={setPrevAudio}
+        setNextAudio={setNextAudio}
+      />
     </Container>
   ) : (
     <span> Loading data </span>

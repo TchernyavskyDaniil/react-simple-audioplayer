@@ -1,23 +1,56 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useState
+} from "react";
 import styled from "styled-components";
-import {
-  FaFastForward,
-  FaFastBackward,
-  FaPlay,
-  FaPause,
-  FaStop
-} from "react-icons/fa";
+import { FaFastBackward, FaFastForward, FaPause, FaPlay } from "react-icons/fa";
+
+import { fancyTimeFormat } from "../utils";
+
+import ProgressAudio from "./ProgressAudio";
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
+  margin: 10px 40%;
+`;
+
+const AudioControls = styled.div`
+  display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin: 10px 40%;
+  padding: 0 10px;
 `;
 
 const Controls = ({ url, setPrevAudio, setNextAudio }) => {
   const [audio, setAudio] = useState(null);
   const [isPlayed, setPlayedStatus] = useState(false);
+  const [audioDuration, setAudioDuration] = useState("0:00");
+  const [currentTime, setCurrentTime] = useState("0:00");
+
+  // When changed audio
+  const loadNextAudio = useCallback(() => {
+    if (audio) {
+      setPlayedStatus(false);
+      audio.pause();
+      audio.load();
+    }
+  }, [url]);
+
+  const setDuration = useCallback(() => {
+    if (audio) {
+      setAudioDuration(fancyTimeFormat(audio.duration));
+    }
+  }, [audio]);
+
+  const updateCurrentTime = () => {
+    if (audio) {
+      setCurrentTime(fancyTimeFormat(audio.currentTime));
+    }
+  };
 
   // After DOM
   useLayoutEffect(() => {
@@ -25,7 +58,21 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
   }, []);
 
   // Get next audio
-  useEffect(() => loadNextAudio(), [url]);
+  useEffect(() => loadNextAudio(), [loadNextAudio, url]);
+
+  //
+  useEffect(() => {
+    if (audio) {
+      setDuration();
+    }
+  }, [audioDuration, setDuration]);
+
+  // Toggle play/pause
+  useEffect(() => {
+    if (audioDuration === currentTime) {
+      setPlayedStatus(false);
+    }
+  }, [audioDuration, currentTime]);
 
   const handlePlay = () => {
     audio.play();
@@ -37,30 +84,33 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
     setPlayedStatus(false);
   };
 
-  const loadNextAudio = () => {
-    if (audio) {
-      setPlayedStatus(false);
-      audio.pause();
-      audio.load();
-    }
-  };
-
-  return (
-    <Container>
-      <audio id="audio-player" preload="metadata">
-        <source
-          src={url}
-          type="audio/ogg"
+  return useMemo(
+    () => (
+      <Container>
+        <AudioControls>
+          <audio
+            id="audio-player"
+            preload="metadata"
+            onLoadedMetadata={setDuration}
+            onTimeUpdate={updateCurrentTime}
+          >
+            <source src={url} type="audio/ogg" />
+          </audio>
+          <FaFastBackward onClick={setPrevAudio} />
+          {isPlayed ? (
+            <FaPause onClick={handlePause} />
+          ) : (
+            <FaPlay onClick={handlePlay} />
+          )}
+          <FaFastForward onClick={setNextAudio} />
+        </AudioControls>
+        <ProgressAudio
+          audioDuration={audioDuration}
+          currentTime={currentTime}
         />
-      </audio>
-      <FaFastBackward onClick={setPrevAudio} />
-      {isPlayed ? (
-        <FaPause onClick={handlePause} />
-      ) : (
-        <FaPlay onClick={handlePlay} />
-      )}
-      <FaFastForward onClick={setNextAudio} />
-    </Container>
+      </Container>
+    ),
+    [url, isPlayed, audioDuration, currentTime]
   );
 };
 

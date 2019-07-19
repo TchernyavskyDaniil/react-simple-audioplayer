@@ -15,6 +15,19 @@
     "styled-components": "^4.3.2",
     "styled-map": "^3.3.0"
   },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^5.0.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.13.0",
+    "husky": "^2.4.1",
+    "lint-staged": "^8.2.1",
+    "prettier": "^1.18.2",
+    "prettier-stylelint": "^0.4.2"
+  },
   "scripts": {
     "start": "HTTPS=true react-scripts start",
     "build": "react-scripts build",
@@ -32,8 +45,8 @@
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "npm run lint",
-      "npm run fix-code"
+      "yarn start lint",
+      "yarn start fix-code"
     ]
   },
   "eslintConfig": {
@@ -50,18 +63,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-prettier": "^5.0.0",
-    "eslint-plugin-import": "^2.17.3",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-prettier": "^3.1.0",
-    "eslint-plugin-react": "^7.13.0",
-    "husky": "^2.4.1",
-    "lint-staged": "^8.2.1",
-    "prettier": "^1.18.2",
-    "prettier-stylelint": "^0.4.2"
   }
 }
