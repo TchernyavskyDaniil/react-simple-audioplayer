@@ -19,6 +19,7 @@ const Player = () => {
   const setNextAudio = () => {
     let indexOfNextAudio = indexCurrentAudio + 1;
 
+    // When index last audio
     if (indexCurrentAudio === playlist.length - 1) {
       indexOfNextAudio = 0;
     }
@@ -28,6 +29,7 @@ const Player = () => {
   const setPrevAudio = () => {
     let indexOfPrevAudio = indexCurrentAudio - 1;
 
+    // When index first audio
     if (indexCurrentAudio === 0) {
       indexOfPrevAudio = playlist.length - 1;
     }

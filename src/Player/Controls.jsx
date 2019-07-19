@@ -30,6 +30,7 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
   const [isPlayed, setPlayedStatus] = useState(false);
   const [audioDuration, setAudioDuration] = useState("0:00");
   const [currentTime, setCurrentTime] = useState("0:00");
+  const [progressPercent, setProgressPercent] = useState(0);
 
   // When changed audio
   const loadNextAudio = useCallback(() => {
@@ -48,7 +49,10 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
 
   const updateCurrentTime = () => {
     if (audio) {
+      let percent = Math.floor((audio.currentTime / audio.duration) * 100);
+
       setCurrentTime(fancyTimeFormat(audio.currentTime));
+      setProgressPercent(percent);
     }
   };
 
@@ -107,10 +111,11 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
         <ProgressAudio
           audioDuration={audioDuration}
           currentTime={currentTime}
+          progressPercent={progressPercent}
         />
       </Container>
     ),
-    [url, isPlayed, audioDuration, currentTime]
+    [url, isPlayed, audioDuration, currentTime, progressPercent]
   );
 };
 
