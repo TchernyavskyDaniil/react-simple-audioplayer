@@ -2,15 +2,16 @@ import React, {
   useCallback,
   useEffect,
   useLayoutEffect,
-  useMemo,
   useState
 } from "react";
 import styled from "styled-components";
-import { FaFastBackward, FaFastForward, FaPause, FaPlay, FaVolumeUp, FaVolumeDown, FaVolumeOff } from "react-icons/fa";
+import { FaFastBackward, FaFastForward, FaPause, FaPlay } from "react-icons/fa";
+import PT from "prop-types";
 
 import { fancyTimeFormat } from "../../utils";
 
 import ProgressAudio from "./ProgressAudio";
+import Volumes from "../Volumes";
 
 const Container = styled.div`
   display: flex;
@@ -33,17 +34,14 @@ const Settings = styled.div`
   justify-content: space-around;
 `;
 
-const Volumes = styled.div`
-  min-height: 25px;
-`;
-
 const Controls = ({ url, setPrevAudio, setNextAudio }) => {
   const [audio, setAudio] = useState(null);
   const [isPlayed, setPlayedStatus] = useState(false);
   const [audioDuration, setAudioDuration] = useState("0:00");
   const [currentTime, setCurrentTime] = useState("0:00");
-  const [progressPercent, setProgressPercent] = useState(0);
-  const [valueSound, setValueSound] = useState(100);
+  const [progressValue, setProgressValue] = useState(0);
+  const [volumeCount, setVolumeCount] = useState(100);
+  const [isChangedRange, setIsChangedRange] = useState(false);
 
   // When changed audio
   const loadNextAudio = useCallback(() => {
@@ -62,10 +60,12 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
 
   const updateCurrentTime = () => {
     if (audio) {
-      let percent = Math.floor((audio.currentTime / audio.duration) * 100);
+      const value = Math.floor((audio.currentTime / audio.duration) * 100) | 0;
 
-      setCurrentTime(fancyTimeFormat(audio.currentTime));
-      setProgressPercent(percent);
+      if (!isChangedRange) {
+        setCurrentTime(fancyTimeFormat(audio.currentTime));
+        setProgressValue(value);
+      }
     }
   };
 
@@ -77,7 +77,6 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
   // Get next audio
   useEffect(() => loadNextAudio(), [loadNextAudio, url]);
 
-  //
   useEffect(() => {
     if (audio && audio.duration) {
       setDuration();
@@ -102,59 +101,83 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
   };
 
   const handleValue = e => {
-    setValueSound(e.target.value);
+    setVolumeCount(e.target.value);
 
     // Max audio volume - 1, min - 0
     audio.volume = e.target.value / 100;
   };
 
-  return useMemo(
-    () => (
-      <Container>
-        <AudioControls>
-          <audio
-            id="audio-player"
-            preload="metadata"
-            onLoadedMetadata={setDuration}
-            onTimeUpdate={updateCurrentTime}
-          >
-            <source src={url} type="audio/ogg" />
-          </audio>
-          {audio && (
-            <>
-              <Settings>
-                <FaFastBackward onClick={setPrevAudio} />
-                {isPlayed ? (
-                  <FaPause onClick={handlePause} />
-                ) : (
-                  <FaPlay onClick={handlePlay} />
-                )}
-                <FaFastForward onClick={setNextAudio} />
-              </Settings>
-              <ContainerVolumeRange>
-                <Volumes>
-                  {valueSound > 50 && <FaVolumeUp />}
-                  {valueSound < 50 && valueSound > 10 && <FaVolumeDown />}
-                  {valueSound < 10 && <FaVolumeOff />}
-                </Volumes>
-                <VolumeRange
-                  type="range"
-                  onChange={handleValue}
-                  defaultValue={100}
-                />
-              </ContainerVolumeRange>
-            </>
-          )}
-        </AudioControls>
-        <ProgressAudio
-          audioDuration={audioDuration}
-          currentTime={currentTime}
-          progressPercent={progressPercent}
-        />
-      </Container>
-    ),
-    [url, isPlayed, audioDuration, currentTime, progressPercent, audio, valueSound]
+  const toggleMuteValue = isMute => {
+    const value = isMute ? 0 : 100;
+
+    setVolumeCount(value);
+    audio.volume = value / 100;
+  };
+
+  const changeValueAudio = e => {
+    // Audio have onTimeUpdate, need to stop generate value 0;
+    setIsChangedRange(true);
+
+    audio.currentTime = (progressValue * audio.duration) / 100;
+    setProgressValue(+e.target.value);
+
+    setTimeout(() => setIsChangedRange(false), 100);
+  };
+
+  return (
+    <Container>
+      <AudioControls>
+        <audio
+          id="audio-player"
+          preload="metadata"
+          onLoadedMetadata={setDuration}
+          onTimeUpdate={updateCurrentTime}
+        >
+          <source src={url} type="audio/ogg" />
+        </audio>
+        {audio && (
+          <>
+            <Settings>
+              <FaFastBackward onClick={setPrevAudio} />
+              {isPlayed ? (
+                <FaPause onClick={handlePause} />
+              ) : (
+                <FaPlay onClick={handlePlay} />
+              )}
+              <FaFastForward onClick={setNextAudio} />
+            </Settings>
+            <ContainerVolumeRange>
+              <Volumes
+                volumeCount={+volumeCount}
+                toggleMuteValue={toggleMuteValue}
+              />
+              <VolumeRange
+                type="range"
+                onChange={handleValue}
+                value={volumeCount}
+              />
+            </ContainerVolumeRange>
+            <ProgressAudio
+              audioDuration={audioDuration}
+              currentTime={currentTime}
+              progressValue={progressValue}
+              changeValueAudio={changeValueAudio}
+            />
+          </>
+        )}
+      </AudioControls>
+    </Container>
   );
+};
+
+Controls.defaultProps = {
+  url: ""
+};
+
+Controls.propTypes = {
+  url: PT.string,
+  setPrevAudio: PT.func,
+  setNextAudio: PT.func
 };
 
 export default Controls;

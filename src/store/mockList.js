@@ -1,4 +1,4 @@
-import { defaultAudioImg } from '../utils';
+import { defaultAudioImg } from "../utils";
 
 const mockPlaylist = [
   {

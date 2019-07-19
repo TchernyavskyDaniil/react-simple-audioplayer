@@ -45,7 +45,10 @@ const AudioPlayer = () => {
         setPrevAudio={setPrevAudio}
         setNextAudio={setNextAudio}
       />
-      <PlayList playlist={playlist} setIndexCurrentAudio={setIndexCurrentAudio} />
+      <PlayList
+        playlist={playlist}
+        setIndexCurrentAudio={setIndexCurrentAudio}
+      />
     </Container>
   ) : (
     <span> Loading data </span>

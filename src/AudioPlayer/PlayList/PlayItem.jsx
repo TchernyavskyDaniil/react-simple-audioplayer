@@ -1,6 +1,6 @@
 import React from "react";
-import styled from 'styled-components';
-import PT from 'prop-types';
+import styled from "styled-components";
+import PT from "prop-types";
 
 import { audioDefaultProps, audioPropTypes } from "../../utils";
 
@@ -28,13 +28,13 @@ const PlayItem = ({ id, title, author, img, setIndexCurrentAudio }) => (
 PlayItem.defaultProps = {
   ...audioDefaultProps,
   setIndexCurrentAudio: () => {},
-  id: 0,
+  id: 0
 };
 
 PlayItem.propTypes = {
   ...audioPropTypes,
   setIndexCurrentAudio: PT.func,
-  id: PT.number,
+  id: PT.number
 };
 
 export default PlayItem;

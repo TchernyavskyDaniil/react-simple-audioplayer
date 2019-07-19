@@ -15,7 +15,14 @@ const List = styled.ul`
 const PlayList = ({ playlist, setIndexCurrentAudio }) => (
   <List>
     {playlist.map(({ id, title, author, img }) => (
-      <PlayItem key={id} id={id} title={title} author={author} img={img} setIndexCurrentAudio={setIndexCurrentAudio} />
+      <PlayItem
+        key={id}
+        id={id}
+        title={title}
+        author={author}
+        img={img}
+        setIndexCurrentAudio={setIndexCurrentAudio}
+      />
     ))}
   </List>
 );
