@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import AudioPlayerLayout from "../pages/AudioPlayerLayout";
+import AudioPlayerPage from "../pages/AudioPlayerPage";
 
 const Container = styled.main`
   padding: 20px 40px;
@@ -10,7 +10,7 @@ const Container = styled.main`
 
 const Main = () => (
   <Container>
-    <AudioPlayerLayout />
+    <AudioPlayerPage />
   </Container>
 );
 
