@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PT from "prop-types";
 import styledMap from "styled-map";
 
-import { audioDefaultProps, audioPropTypes } from "../../../utils";
+import { audioDefaultProps, audioPropTypes } from "../AudioType";
 
 const Image = styled.img`
   width: ${styledMap`

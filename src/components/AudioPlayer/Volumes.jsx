@@ -16,8 +16,7 @@ const Volumes = ({ volumeCount, toggleMuteValue }) => (
 );
 
 Volumes.defaultProps = {
-  volumeCount: 100,
-  toggleMuteValue: () => {}
+  volumeCount: 100
 };
 
 Volumes.propTypes = {

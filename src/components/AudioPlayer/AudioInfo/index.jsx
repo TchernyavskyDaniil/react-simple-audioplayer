@@ -2,10 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import PT from "prop-types";
 
-import { audioDefaultProps, audioPropTypes } from "../../../utils";
-
 import Controls from "./Controls";
 import AboutAudio from "./AboutAudio";
+import { audioDefaultProps, audioPropTypes } from "../AudioType";
 
 const Container = styled.section`
   min-height: 200px;

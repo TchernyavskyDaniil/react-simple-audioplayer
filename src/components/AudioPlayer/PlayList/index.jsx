@@ -3,6 +3,7 @@ import PT from "prop-types";
 import styled from "styled-components";
 
 import PlayItem from "./PlayItem";
+import { audioPropTypes } from "../AudioType";
 
 const List = styled.ul`
   display: flex;
@@ -12,6 +13,12 @@ const List = styled.ul`
   padding: 20px 0;
   margin: 0 auto;
   list-style: none;
+`;
+
+const AudioNotFound = styled.span`
+  width: 100%;
+  font-size: 16px;
+  line-height: 18px;
 `;
 
 const PlayList = ({
@@ -42,7 +49,7 @@ const PlayList = ({
           />
         ))
       ) : (
-        <span> No audio records found </span>
+        <AudioNotFound> No audio records found </AudioNotFound>
       )}
     </List>
   );
@@ -54,7 +61,11 @@ PlayList.defaultProps = {
 };
 
 PlayList.propTypes = {
-  playlist: PT.array,
+  playlist: PT.arrayOf(
+    PT.shape({
+      ...audioPropTypes,
+    })
+  ),
   setActiveAudio: PT.func,
   setIndexCurrentAudio: PT.func,
   toggleAudio: PT.func,

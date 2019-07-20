@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import PT from "prop-types";
 
-import { audioDefaultProps, audioPropTypes } from "../../../utils";
 import AboutAudio from "../AudioInfo/AboutAudio";
+import { audioDefaultProps, audioPropTypes } from "../AudioType";
 
 const Container = styled.li`
   cursor: pointer;
