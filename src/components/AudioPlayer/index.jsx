@@ -91,16 +91,20 @@ const AudioPlayer = () => {
     newSortedPlaylist.length === 1 ? setOnceAudioStatus(true) : setOnceAudioStatus(false);
   };
 
-  const sortedAudioCallback = useCallback(e => {
-      setActiveAudio(null);
-      getSortedList(e);
-    }, [activeAudio, sortedPlaylist]);
+  const activeAudioCallback = useCallback(() =>
+    setActiveAudio(null),
+    [activeAudio]);
+
+  const handleChangeSorted = e => {
+    activeAudioCallback();
+    getSortedList(e);
+  };
 
   return playlist.length ? (
     <Container>
       <SearchAudio
         type="text"
-        onKeyUp={sortedAudioCallback}
+        onChange={handleChangeSorted}
         placeholder="Let's search!"
       />
       {activeAudio && (
