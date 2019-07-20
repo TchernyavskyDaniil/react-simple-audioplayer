@@ -53,7 +53,6 @@ const Controls = ({
   const [currentTime, setCurrentTime] = useState("0:00");
   const [progressValue, setProgressValue] = useState(0);
   const [volumeCount, setVolumeCount] = useState(100);
-  const [isChangedRange, setIsChangedRange] = useState(false);
 
   const setPlayStatusAudio = () => {
     const newAudio = new Audio(url);
@@ -68,9 +67,8 @@ const Controls = ({
   const loadNextAudio = useCallback(() => {
     if (audio) {
       audio.pause();
-
-      setPlayedStatus(true);
       setPlayStatusAudio();
+      setPlayedStatus(true);
     }
   }, [url]);
 
@@ -104,20 +102,9 @@ const Controls = ({
 
     if (audio) {
       setDuration();
-
       audio.ontimeupdate = () => updateCurrentTime();
     }
   }, [audio, audioDuration, currentTime]);
-
-  useEffect(() => {
-    if (audio) {
-      if (isPlayed) {
-        audio.play();
-      } else {
-        audio.pause();
-      }
-    }
-  }, [isPlayed]);
 
   const handleValue = e => {
     setVolumeCount(e.target.value);
@@ -134,13 +121,8 @@ const Controls = ({
   };
 
   const changeValueAudio = e => {
-    // Audio have onTimeUpdate, need to stop generate value 0;
-    setIsChangedRange(true);
-
     audio.currentTime = (progressValue * audio.duration) / 100;
     setProgressValue(+e.target.value);
-
-    setTimeout(() => setIsChangedRange(false), 100);
   };
 
   const renderProgressAudio = useMemo(
@@ -177,9 +159,9 @@ const Controls = ({
           <Settings>
             {!isOnceAudio && <FaFastBackward onClick={setPrevAudio} />}
             {isPlayed ? (
-              <FaPause onClick={() => toggleAudio(true)} />
+              <FaPause onClick={() => toggleAudio(true, audio)} />
             ) : (
-              <FaPlay onClick={() => toggleAudio(false)} />
+              <FaPlay onClick={() => toggleAudio(false, audio)} />
             )}
             {!isOnceAudio && <FaFastForward onClick={setNextAudio} />}
           </Settings>

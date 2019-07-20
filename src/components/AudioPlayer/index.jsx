@@ -72,12 +72,22 @@ const AudioPlayer = () => {
     updateCurrentAudio(indexOfPrevAudio);
   };
 
-  const handlePlay = () => setPlayedStatus(true);
+  const handlePlay = audio => {
+    setPlayedStatus(true);
+    if (audio) {
+      audio.play();
+    }
+  };
 
-  const handlePause = () => setPlayedStatus(false);
+  const handlePause = audio => {
+    setPlayedStatus(false);
+    if (audio) {
+      audio.pause();
+    }
+  };
 
-  const toggleAudio = (isPlayedStatus = false) =>
-    isPlayedStatus ? handlePause() : handlePlay();
+  const toggleAudio = (isPlayedStatus = false, audio) =>
+    isPlayedStatus ? handlePause(audio) : handlePlay(audio);
 
   // for API - debounce
   const getSortedList = e => {

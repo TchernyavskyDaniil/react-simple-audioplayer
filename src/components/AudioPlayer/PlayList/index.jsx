@@ -28,6 +28,10 @@ const PlayList = ({
   toggleAudio,
   isPlayed
 }) => {
+  /**
+   * @param currentIndex {number}
+   * @param audioProps {object}
+   */
   const getNewActiveAudio = (currentIndex, audioProps) => {
     setIndexCurrentAudio(currentIndex);
     setActiveAudio(audioProps);

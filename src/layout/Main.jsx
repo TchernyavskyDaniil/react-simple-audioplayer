@@ -5,11 +5,11 @@ import AudioPlayerPage from "../pages/AudioPlayerPage";
 
 const Container = styled.main`
   padding: 20px 40px;
-  width: auto;
-  height: 100%;
+  min-height: 600px;
 
   @media screen and (max-width: 768px) {
     padding: 20px 10px;
+    min-height: 450px;
   }
 `;
 
