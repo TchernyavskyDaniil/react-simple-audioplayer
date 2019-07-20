@@ -3,19 +3,7 @@ import styled from "styled-components";
 import PT from "prop-types";
 
 import { audioDefaultProps, audioPropTypes } from "../../../utils";
-
-const Title = styled.span`
-  transition: 0.4s ease color;
-`;
-
-const Author = styled(Title)`
-  padding-left: 10px;
-`;
-
-const AudioImage = styled.img`
-  width: 80px;
-  border-radius: 50%;
-`;
+import AboutAudio from "../AudioInfo/AboutAudio";
 
 const Container = styled.li`
   cursor: pointer;
@@ -32,21 +20,13 @@ const Container = styled.li`
   &:last-child {
     border-bottom: 1px solid lightblue;
   }
-
-  &:hover {
-    ${Title} {
-      color: red;
-    }
-  }
 `;
 
 const PlayItem = ({ id, title, author, img, url, getNewActiveAudio }) => (
   <Container
     onClick={() => getNewActiveAudio(id - 1, { title, author, img, url })}
   >
-    <Title> {title} </Title>
-    <Author> {author} </Author>
-    <AudioImage src={img} />
+    <AboutAudio title={title} author={author} img={img} isList />
   </Container>
 );
 

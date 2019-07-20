@@ -12,7 +12,8 @@
     "react-helmet": "^5.2.1",
     "react-icons": "^3.7.0",
     "react-scripts": "3.0.1",
-    "styled-components": "^4.3.2"
+    "styled-components": "^4.3.2",
+    "styled-map": "^3.3.0"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
@@ -44,8 +45,8 @@
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "yarn run lint",
-      "yarn run fix-code"
+      "npm run lint",
+      "npm run fix-code"
     ]
   },
   "eslintConfig": {

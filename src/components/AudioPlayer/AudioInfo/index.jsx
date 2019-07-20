@@ -5,27 +5,12 @@ import PT from "prop-types";
 import { audioDefaultProps, audioPropTypes } from "../../../utils";
 
 import Controls from "./Controls";
+import AboutAudio from "./AboutAudio";
 
 const Container = styled.section`
   min-height: 200px;
+  padding: 20px 0;
 `;
-
-const AboutAudio = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const Image = styled.img`
-  width: 160px;
-`;
-
-const Title = styled.span`
-  font-size: 18px;
-  line-height: 20px;
-`;
-
-const Author = styled(Title)``;
 
 const AudioInfo = ({
   title,
@@ -40,11 +25,7 @@ const AudioInfo = ({
 }) => {
   return (
     <Container>
-      <AboutAudio>
-        <Image src={img} alt={title} />
-        <Title> Track name: {title} </Title>
-        <Author> Author: {author} </Author>
-      </AboutAudio>
+      <AboutAudio title={title} img={img} author={author} />
       <Controls
         url={url}
         setNextAudio={setNextAudio}
