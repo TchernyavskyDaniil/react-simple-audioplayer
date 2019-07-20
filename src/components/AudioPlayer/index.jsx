@@ -75,7 +75,7 @@ const AudioPlayer = () => {
   const toggleAudio = (isPlayedStatus = false) =>
     isPlayedStatus ? handlePause() : handlePlay();
 
-  // for API debounce
+  // for API - debounce
   const getSortedList = e => {
     const newSortedPlaylist = playlist.filter(playItem => {
       const inputValue = e.target.value.toLowerCase();
