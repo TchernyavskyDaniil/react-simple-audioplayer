@@ -97,8 +97,10 @@ const AudioPlayer = () => {
     }, [activeAudio, isPlayed]);
 
   const handleChangeSorted = e => {
-    activeAudioCallback();
-    getSortedList(e);
+    if (e.target.value.length >= 3) {
+      activeAudioCallback();
+      getSortedList(e);
+    }
   };
 
   return playlist.length ? (
