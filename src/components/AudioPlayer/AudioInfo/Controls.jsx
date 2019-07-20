@@ -40,14 +40,14 @@ const Settings = styled.div`
 `;
 
 const Controls = ({
-  url,
-  setPrevAudio,
-  setNextAudio,
-  toggleAudio,
-  isPlayed,
-  setPlayedStatus,
-  isOnceAudio
-}) => {
+                    url,
+                    setPrevAudio,
+                    setNextAudio,
+                    toggleAudio,
+                    isPlayed,
+                    setPlayedStatus,
+                    isOnceAudio
+                  }) => {
   const [audio, setAudio] = useState(null);
   const [audioDuration, setAudioDuration] = useState("0:00");
   const [currentTime, setCurrentTime] = useState("0:00");
@@ -55,13 +55,22 @@ const Controls = ({
   const [volumeCount, setVolumeCount] = useState(100);
   const [isChangedRange, setIsChangedRange] = useState(false);
 
+  const setPlayStatusAudio = () => {
+    const newAudio = new Audio(url);
+
+    newAudio.load();
+    newAudio.play();
+
+    setAudio(newAudio);
+  };
+
   // When changed audio
   const loadNextAudio = useCallback(() => {
     if (audio) {
-      setPlayedStatus(true);
       audio.pause();
-      audio.load();
-      audio.play();
+
+      setPlayedStatus(true);
+      setPlayStatusAudio();
     }
   }, [url]);
 
@@ -83,23 +92,10 @@ const Controls = ({
   };
 
   // After DOM
-  useLayoutEffect(() => {
-    const audioElement = document.getElementById("audio-player");
-
-    audioElement.load();
-    audioElement.play();
-
-    setAudio(audioElement);
-  }, []);
+  useLayoutEffect(() => setPlayStatusAudio(), []);
 
   // Get next audio
   useEffect(() => loadNextAudio(), [loadNextAudio, url]);
-
-  useEffect(() => {
-    if (audio && audio.duration) {
-      setDuration();
-    }
-  }, [audioDuration, setDuration]);
 
   // Toggle play/pause
   // currentTime checked for not first render
@@ -107,7 +103,13 @@ const Controls = ({
     if (audioDuration === currentTime && currentTime !== "0:00") {
       setPlayedStatus(false);
     }
-  }, [audioDuration, currentTime]);
+
+    if (audio) {
+      setDuration();
+
+      audio.ontimeupdate = () => updateCurrentTime();
+    }
+  }, [audio, audioDuration, currentTime]);
 
   useEffect(() => {
     if (audio) {
@@ -169,7 +171,6 @@ const Controls = ({
         id="audio-player"
         preload="metadata"
         onLoadedMetadata={setDuration}
-        onTimeUpdate={updateCurrentTime}
       >
         <source src={url} type="audio/ogg" />
       </audio>

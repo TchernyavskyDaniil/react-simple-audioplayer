@@ -35,12 +35,7 @@ const Title = styled.span`
   transition: 0.4s ease color;
 `;
 
-const Author = styled(Title)`
-  padding-left: ${styledMap`
-      isList: 10px;
-      default: 0;
-   `};
-`;
+const Author = styled(Title)``;
 
 const Container = styled.div`
   display: flex;
@@ -65,6 +60,10 @@ const Container = styled.div`
 const DescAudio = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: ${styledMap`
+    isList: flex-start;
+    default: center;
+  `};
 
   @media screen and (max-width: 768px) {
     max-width: 70%;
@@ -73,7 +72,7 @@ const DescAudio = styled.div`
 
 const AboutAudio = ({ title, author, img, isList }) => (
   <Container isList={isList}>
-    <DescAudio>
+    <DescAudio isList={isList}>
       <Title isList={isList}> {title} </Title>
       <Author isList={isList}> {author} </Author>
     </DescAudio>
