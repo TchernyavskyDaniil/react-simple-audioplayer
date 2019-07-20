@@ -40,14 +40,14 @@ const Settings = styled.div`
 `;
 
 const Controls = ({
-                    url,
-                    setPrevAudio,
-                    setNextAudio,
-                    toggleAudio,
-                    isPlayed,
-                    setPlayedStatus,
-                    isOnceAudio
-                  }) => {
+  url,
+  setPrevAudio,
+  setNextAudio,
+  toggleAudio,
+  isPlayed,
+  setPlayedStatus,
+  isOnceAudio
+}) => {
   const [audio, setAudio] = useState(null);
   const [audioDuration, setAudioDuration] = useState("0:00");
   const [currentTime, setCurrentTime] = useState("0:00");
@@ -84,10 +84,8 @@ const Controls = ({
     if (audio) {
       const value = Math.floor((audio.currentTime / audio.duration) * 100) | 0;
 
-      if (!isChangedRange) {
-        setCurrentTime(fancyTimeFormat(audio.currentTime));
-        setProgressValue(value);
-      }
+      setCurrentTime(fancyTimeFormat(audio.currentTime));
+      setProgressValue(value);
     }
   };
 
