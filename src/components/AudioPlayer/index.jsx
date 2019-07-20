@@ -91,9 +91,10 @@ const AudioPlayer = () => {
     newSortedPlaylist.length === 1 ? setOnceAudioStatus(true) : setOnceAudioStatus(false);
   };
 
-  const activeAudioCallback = useCallback(() =>
-    setActiveAudio(null),
-    [activeAudio]);
+  const activeAudioCallback = useCallback(() =>{
+    setActiveAudio(null);
+    setPlayedStatus(false);
+    }, [activeAudio, isPlayed]);
 
   const handleChangeSorted = e => {
     activeAudioCallback();
