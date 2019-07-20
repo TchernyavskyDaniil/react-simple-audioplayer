@@ -1,21 +1,22 @@
 import React from "react";
+import styled from "styled-components";
 
-import AudioPlayer from "./AudioPlayer";
+import Header from "./layout/Header";
+import Main from "./layout/Main";
+import Footer from "./layout/Footer";
 
-const App = () => {
-  return (
-    <div>
-      <header>
-        <span> header audio player </span>
-      </header>
-      <main>
-        <AudioPlayer />
-      </main>
-      <footer>
-        <span> audio player footer </span>
-      </footer>
-    </div>
-  );
-};
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+`;
+
+const App = () => (
+  <Container>
+    <Header />
+    <Main />
+    <Footer />
+  </Container>
+);
 
 export default App;

@@ -15,7 +15,9 @@ const Counter = styled.span`
   text-align: center;
 `;
 
-const ProgressRange = styled.input``;
+const ProgressRange = styled.input`
+  width: 140px;
+`;
 
 const ProgressAudio = ({
   audioDuration,

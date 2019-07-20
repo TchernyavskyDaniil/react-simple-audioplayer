@@ -36,6 +36,9 @@ export const audioPropTypes = {
   img: PT.string
 };
 
+export const urlToGithub =
+  "https://github.com/TchernyavskyDaniil/react-simple-audioplayer";
+
 export function debounce(f, t) {
   return function(args) {
     let previousCall = this.lastCall;

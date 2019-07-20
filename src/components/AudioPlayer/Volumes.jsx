@@ -4,7 +4,7 @@ import { FaVolumeUp, FaVolumeDown, FaVolumeOff } from "react-icons/fa";
 import PT from "prop-types";
 
 const Container = styled.div`
-  min-height: 25px;
+  margin-right: 10px;
 `;
 
 const Volumes = ({ volumeCount, toggleMuteValue }) => (

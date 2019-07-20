@@ -32,6 +32,22 @@ const mockPlaylist = [
     url:
       "https://sampleswap.org/samples-ghost/MELODIC%20LOOPS/VOCAL%20OR%20VOXY%20LOOPS/1175[kb]141_illusion-echo-vox.wav.mp3",
     img: defaultAudioImg
+  },
+  {
+    id: 5,
+    title: "PRIMAVARA",
+    author: "HARVESTERED",
+    url:
+      "https://sampleswap.org/mp3/artist/28165/harvestfred_-PRIMAVARA--160.mp3",
+    img: defaultAudioImg
+  },
+  {
+    id: 6,
+    title: "Some title",
+    author: "Some author",
+    url:
+      "https://sampleswap.org/mp3/artist/25093/Mark-Phillips_Annas-Logbook2-160.mp3",
+    img: defaultAudioImg
   }
 ];
 

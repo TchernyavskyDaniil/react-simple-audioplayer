@@ -1,20 +1,35 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { fakeFetchPlaylist } from "../store/mockList";
+import { fakeFetchPlaylist } from "../../store/mockList";
 
-import Header from "./Header";
+import AudioInfo from "./AudioInfo";
 import PlayList from "./PlayList";
 
-const Container = styled.div``;
+const Container = styled.div`
+  text-align: center;
+`;
 
-const SearchAudio = styled.input``;
+const SearchAudio = styled.input`
+  width: 400px;
+  height: 30px;
+  font-size: 20px;
+  padding: 6px;
+`;
+
+const Loading = styled.span`
+  display: block;
+  margin: 40px;
+  text-align: center;
+  font-size: 24px;
+`;
 
 const AudioPlayer = () => {
   const [playlist, setPlaylist] = useState([]);
   const [sortedPlaylist, setSortedList] = useState([]);
   const [indexCurrentAudio, setIndexCurrentAudio] = useState(0);
   const [activeAudio, setActiveAudio] = useState(null);
+  const [isPlayed, setPlayedStatus] = useState(false);
 
   // Did mount
   useEffect(() => {
@@ -24,6 +39,12 @@ const AudioPlayer = () => {
     });
   }, []);
 
+  const updateCurrentAudio = index => {
+    setIndexCurrentAudio(index);
+    setActiveAudio(sortedPlaylist[index]);
+    setPlayedStatus(true);
+  };
+
   const setNextAudio = () => {
     let indexOfNextAudio = indexCurrentAudio + 1;
 
@@ -31,8 +52,8 @@ const AudioPlayer = () => {
     if (indexCurrentAudio === sortedPlaylist.length - 1) {
       indexOfNextAudio = 0;
     }
-    setIndexCurrentAudio(indexOfNextAudio);
-    setActiveAudio(sortedPlaylist[indexOfNextAudio]);
+
+    updateCurrentAudio(indexOfNextAudio);
   };
 
   const setPrevAudio = () => {
@@ -43,8 +64,19 @@ const AudioPlayer = () => {
       indexOfPrevAudio = sortedPlaylist.length - 1;
     }
 
-    setIndexCurrentAudio(indexOfPrevAudio);
-    setActiveAudio(sortedPlaylist[indexOfPrevAudio]);
+    updateCurrentAudio(indexOfPrevAudio);
+  };
+
+  const handlePlay = () => setPlayedStatus(true);
+
+  const handlePause = () => setPlayedStatus(false);
+
+  const toggleAudio = (isPlayedStatus = false) => {
+    if (isPlayedStatus) {
+      handlePause();
+    } else {
+      handlePlay();
+    }
   };
 
   // for API debounce
@@ -64,22 +96,31 @@ const AudioPlayer = () => {
 
   return playlist.length ? (
     <Container>
-      <SearchAudio type="text" onChange={getSortedList} />
+      <SearchAudio
+        type="text"
+        onChange={getSortedList}
+        placeholder="Let's search!"
+      />
       {activeAudio && (
-        <Header
+        <AudioInfo
           {...activeAudio}
           setPrevAudio={setPrevAudio}
           setNextAudio={setNextAudio}
+          toggleAudio={toggleAudio}
+          isPlayed={isPlayed}
+          setPlayedStatus={setPlayedStatus}
         />
       )}
       <PlayList
         setActiveAudio={setActiveAudio}
         setIndexCurrentAudio={setIndexCurrentAudio}
         playlist={sortedPlaylist}
+        toggleAudio={toggleAudio}
+        isPlayed={isPlayed}
       />
     </Container>
   ) : (
-    <span> Loading data </span>
+    <Loading> Loading some audio </Loading>
   );
 };
 

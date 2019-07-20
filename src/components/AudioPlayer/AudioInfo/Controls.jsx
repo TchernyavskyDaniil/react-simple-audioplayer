@@ -9,35 +9,45 @@ import styled from "styled-components";
 import { FaFastBackward, FaFastForward, FaPause, FaPlay } from "react-icons/fa";
 import PT from "prop-types";
 
-import { fancyTimeFormat } from "../../utils";
+import { fancyTimeFormat } from "../../../utils";
 
 import ProgressAudio from "./ProgressAudio";
 import Volumes from "../Volumes";
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 10px 40%;
-`;
-
 const AudioControls = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 0 10px;
+  margin: 20px;
 `;
 
-const ContainerVolumeRange = styled.div``;
+const ContainerVolumeRange = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 0;
+`;
 
-const VolumeRange = styled.input``;
+const VolumeRange = styled.input`
+  width: 100px;
+`;
 
 const Settings = styled.div`
   display: flex;
   justify-content: space-around;
+  width: 100px;
 `;
 
-const Controls = ({ url, setPrevAudio, setNextAudio }) => {
+const Controls = ({
+  url,
+  setPrevAudio,
+  setNextAudio,
+  toggleAudio,
+  isPlayed,
+  setPlayedStatus
+}) => {
   const [audio, setAudio] = useState(null);
-  const [isPlayed, setPlayedStatus] = useState(true);
   const [audioDuration, setAudioDuration] = useState("0:00");
   const [currentTime, setCurrentTime] = useState("0:00");
   const [progressValue, setProgressValue] = useState(0);
@@ -98,15 +108,15 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
     }
   }, [audioDuration, currentTime]);
 
-  const handlePlay = () => {
-    audio.play();
-    setPlayedStatus(true);
-  };
-
-  const handlePause = () => {
-    audio.pause();
-    setPlayedStatus(false);
-  };
+  useEffect(() => {
+    if (audio) {
+      if (isPlayed) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
+  }, [isPlayed]);
 
   const handleValue = e => {
     setVolumeCount(e.target.value);
@@ -153,40 +163,38 @@ const Controls = ({ url, setPrevAudio, setNextAudio }) => {
   );
 
   return (
-    <Container>
-      <AudioControls>
-        <audio
-          id="audio-player"
-          preload="metadata"
-          onLoadedMetadata={setDuration}
-          onTimeUpdate={updateCurrentTime}
-        >
-          <source src={url} type="audio/ogg" />
-        </audio>
-        {audio && (
-          <>
-            <Settings>
-              <FaFastBackward onClick={setPrevAudio} />
-              {isPlayed ? (
-                <FaPause onClick={handlePause} />
-              ) : (
-                <FaPlay onClick={handlePlay} />
-              )}
-              <FaFastForward onClick={setNextAudio} />
-            </Settings>
-            <ContainerVolumeRange>
-              {renderVolumes}
-              <VolumeRange
-                type="range"
-                onChange={handleValue}
-                value={volumeCount}
-              />
-            </ContainerVolumeRange>
-            {renderProgressAudio}
-          </>
-        )}
-      </AudioControls>
-    </Container>
+    <AudioControls>
+      <audio
+        id="audio-player"
+        preload="metadata"
+        onLoadedMetadata={setDuration}
+        onTimeUpdate={updateCurrentTime}
+      >
+        <source src={url} type="audio/ogg" />
+      </audio>
+      {audio && (
+        <>
+          <Settings>
+            <FaFastBackward onClick={setPrevAudio} />
+            {isPlayed ? (
+              <FaPause onClick={() => toggleAudio(true)} />
+            ) : (
+              <FaPlay onClick={() => toggleAudio(false)} />
+            )}
+            <FaFastForward onClick={setNextAudio} />
+          </Settings>
+          <ContainerVolumeRange>
+            {renderVolumes}
+            <VolumeRange
+              type="range"
+              onChange={handleValue}
+              value={volumeCount}
+            />
+          </ContainerVolumeRange>
+          {renderProgressAudio}
+        </>
+      )}
+    </AudioControls>
   );
 };
 
