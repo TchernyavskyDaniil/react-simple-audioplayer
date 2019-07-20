@@ -46,7 +46,7 @@ const Controls = ({
   toggleAudio,
   isPlayed,
   setPlayedStatus,
-                    isOnceAudio,
+  isOnceAudio
 }) => {
   const [audio, setAudio] = useState(null);
   const [audioDuration, setAudioDuration] = useState("0:00");

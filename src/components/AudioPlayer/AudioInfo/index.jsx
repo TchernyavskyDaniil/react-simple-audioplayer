@@ -21,7 +21,7 @@ const AudioInfo = ({
   toggleAudio,
   isPlayed,
   setPlayedStatus,
-                     isOnceAudio,
+  isOnceAudio
 }) => {
   return (
     <Container>
@@ -42,7 +42,7 @@ const AudioInfo = ({
 AudioInfo.defaultProps = {
   ...audioDefaultProps,
   isPlayed: true,
-  isOnceAudio: false,
+  isOnceAudio: false
 };
 
 AudioInfo.propTypes = {
@@ -52,7 +52,7 @@ AudioInfo.propTypes = {
   toggleAudio: PT.func,
   isPlayed: PT.bool,
   setPlayedStatus: PT.func,
-  isOnceAudio: PT.bool,
+  isOnceAudio: PT.bool
 };
 
 export default AudioInfo;

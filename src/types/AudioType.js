@@ -14,5 +14,5 @@ export const audioPropTypes = {
   author: PT.string.isRequired,
   url: PT.string.isRequired,
   img: PT.string,
-  id: PT.number,
+  id: PT.number
 };

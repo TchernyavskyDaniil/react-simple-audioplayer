@@ -63,7 +63,7 @@ PlayList.defaultProps = {
 PlayList.propTypes = {
   playlist: PT.arrayOf(
     PT.shape({
-      ...audioPropTypes,
+      ...audioPropTypes
     })
   ),
   setActiveAudio: PT.func,

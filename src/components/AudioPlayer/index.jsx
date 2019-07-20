@@ -88,18 +88,22 @@ const AudioPlayer = () => {
     });
 
     setSortedList(newSortedPlaylist);
-    newSortedPlaylist.length === 1 ? setOnceAudioStatus(true) : setOnceAudioStatus(false);
+    newSortedPlaylist.length === 1
+      ? setOnceAudioStatus(true)
+      : setOnceAudioStatus(false);
   };
 
-  const activeAudioCallback = useCallback(() =>{
+  const activeAudioCallback = useCallback(() => {
     setActiveAudio(null);
     setPlayedStatus(false);
-    }, [activeAudio, isPlayed]);
+  }, [activeAudio, isPlayed]);
 
   const handleChangeSorted = e => {
     if (e.target.value.length >= 3) {
       activeAudioCallback();
       getSortedList(e);
+    } else if (!e.target.value.length) {
+      setSortedList(playlist);
     }
   };
 
