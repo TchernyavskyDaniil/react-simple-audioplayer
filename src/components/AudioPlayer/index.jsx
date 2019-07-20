@@ -15,6 +15,10 @@ const SearchAudio = styled.input`
   height: 30px;
   font-size: 20px;
   padding: 6px;
+
+  @media (max-width: 768px) {
+    width: auto;
+  }
 `;
 
 const Loading = styled.span`

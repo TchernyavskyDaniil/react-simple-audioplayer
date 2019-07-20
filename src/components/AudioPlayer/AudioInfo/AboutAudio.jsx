@@ -14,6 +14,13 @@ const Image = styled.img`
     isList: 50%;
     default: 0;  
   `};
+
+  @media screen and (max-width: 768px) {
+    width: ${styledMap`
+      isList: 30%;
+      default: 160px;
+    `};
+  }
 `;
 
 const Title = styled.span`
@@ -42,21 +49,34 @@ const Container = styled.div`
     default: column;
   `};
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
 
   &:hover {
     ${Title} {
       color: ${styledMap`
-              isList: red;
-              default: initial;
-          `};
+        isList: red;
+        default: initial;
+      `};
     }
+  }
+`;
+
+const DescAudio = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (max-width: 768px) {
+    max-width: 70%;
   }
 `;
 
 const AboutAudio = ({ title, author, img, isList }) => (
   <Container isList={isList}>
-    <Title isList={isList}> {title} </Title>
-    <Author isList={isList}> {author} </Author>
+    <DescAudio>
+      <Title isList={isList}> {title} </Title>
+      <Author isList={isList}> {author} </Author>
+    </DescAudio>
     <Image src={img} isList={isList} />
   </Container>
 );

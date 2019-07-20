@@ -7,7 +7,7 @@ import Footer from "./layout/Footer";
 
 const Container = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   height: 100%;
 `;
 
