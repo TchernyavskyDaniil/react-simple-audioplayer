@@ -4,7 +4,7 @@ import PT from "prop-types";
 
 import Controls from "./Controls";
 import AboutAudio from "./AboutAudio";
-import { audioDefaultProps, audioPropTypes } from "../AudioType";
+import { audioDefaultProps, audioPropTypes } from "../../../types/AudioType";
 
 const Container = styled.section`
   min-height: 200px;
@@ -20,7 +20,8 @@ const AudioInfo = ({
   setPrevAudio,
   toggleAudio,
   isPlayed,
-  setPlayedStatus
+  setPlayedStatus,
+                     isOnceAudio,
 }) => {
   return (
     <Container>
@@ -32,6 +33,7 @@ const AudioInfo = ({
         toggleAudio={toggleAudio}
         isPlayed={isPlayed}
         setPlayedStatus={setPlayedStatus}
+        isOnceAudio={isOnceAudio}
       />
     </Container>
   );
@@ -39,7 +41,8 @@ const AudioInfo = ({
 
 AudioInfo.defaultProps = {
   ...audioDefaultProps,
-  isPlayed: true
+  isPlayed: true,
+  isOnceAudio: false,
 };
 
 AudioInfo.propTypes = {
@@ -48,7 +51,8 @@ AudioInfo.propTypes = {
   setPrevAudio: PT.func,
   toggleAudio: PT.func,
   isPlayed: PT.bool,
-  setPlayedStatus: PT.func
+  setPlayedStatus: PT.func,
+  isOnceAudio: PT.bool,
 };
 
 export default AudioInfo;

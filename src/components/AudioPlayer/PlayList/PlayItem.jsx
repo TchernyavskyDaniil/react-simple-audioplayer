@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PT from "prop-types";
 
 import AboutAudio from "../AudioInfo/AboutAudio";
-import { audioDefaultProps, audioPropTypes } from "../AudioType";
+import { audioDefaultProps, audioPropTypes } from "../../../types/AudioType";
 
 const Container = styled.li`
   cursor: pointer;

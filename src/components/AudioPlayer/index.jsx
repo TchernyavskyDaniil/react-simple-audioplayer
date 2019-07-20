@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 
 import { fakeFetchPlaylist } from "../../store/mockList";
@@ -30,6 +30,7 @@ const AudioPlayer = () => {
   const [indexCurrentAudio, setIndexCurrentAudio] = useState(0);
   const [activeAudio, setActiveAudio] = useState(null);
   const [isPlayed, setPlayedStatus] = useState(false);
+  const [isOnceAudio, setOnceAudioStatus] = useState(false);
 
   // Did mount
   useEffect(() => {
@@ -71,34 +72,37 @@ const AudioPlayer = () => {
 
   const handlePause = () => setPlayedStatus(false);
 
-  const toggleAudio = (isPlayedStatus = false) => {
-    if (isPlayedStatus) {
-      handlePause();
-    } else {
-      handlePlay();
-    }
-  };
+  const toggleAudio = (isPlayedStatus = false) =>
+    isPlayedStatus ? handlePause() : handlePlay();
 
   // for API debounce
   const getSortedList = e => {
-    setSortedList(
-      playlist.filter(playItem => {
-        const inputValue = e.target.value.toLowerCase();
-        if (
-          playItem.title.toLowerCase().includes(inputValue) ||
-          playItem.author.toLowerCase().includes(inputValue)
-        ) {
-          return playItem;
-        }
-      })
-    );
+    const newSortedPlaylist = playlist.filter(playItem => {
+      const inputValue = e.target.value.toLowerCase();
+      if (
+        playItem.title.toLowerCase().includes(inputValue) ||
+        playItem.author.toLowerCase().includes(inputValue)
+      ) {
+        return playItem;
+      }
+    });
+
+    setSortedList(newSortedPlaylist);
+    newSortedPlaylist.length === 1 ? setOnceAudioStatus(true) : setOnceAudioStatus(false);
+  };
+
+  const activeAudioCallback = useCallback(() => setActiveAudio(null), [activeAudio]);
+
+  const handleChangeSorted = e => {
+    activeAudioCallback();
+    getSortedList(e);
   };
 
   return playlist.length ? (
     <Container>
       <SearchAudio
         type="text"
-        onChange={getSortedList}
+        onChange={handleChangeSorted}
         placeholder="Let's search!"
       />
       {activeAudio && (
@@ -109,6 +113,7 @@ const AudioPlayer = () => {
           toggleAudio={toggleAudio}
           isPlayed={isPlayed}
           setPlayedStatus={setPlayedStatus}
+          isOnceAudio={isOnceAudio}
         />
       )}
       <PlayList

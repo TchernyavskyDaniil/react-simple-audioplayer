@@ -1,5 +1,7 @@
 import PT from "prop-types";
 
+// types for many components
+
 export const audioDefaultProps = {
   title: "Default title",
   author: "Default author",

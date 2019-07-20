@@ -45,7 +45,8 @@ const Controls = ({
   setNextAudio,
   toggleAudio,
   isPlayed,
-  setPlayedStatus
+  setPlayedStatus,
+                    isOnceAudio,
 }) => {
   const [audio, setAudio] = useState(null);
   const [audioDuration, setAudioDuration] = useState("0:00");
@@ -175,13 +176,13 @@ const Controls = ({
       {audio && (
         <>
           <Settings>
-            <FaFastBackward onClick={setPrevAudio} />
+            {!isOnceAudio && <FaFastBackward onClick={setPrevAudio} />}
             {isPlayed ? (
               <FaPause onClick={() => toggleAudio(true)} />
             ) : (
               <FaPlay onClick={() => toggleAudio(false)} />
             )}
-            <FaFastForward onClick={setNextAudio} />
+            {!isOnceAudio && <FaFastForward onClick={setNextAudio} />}
           </Settings>
           <ContainerVolumeRange>
             {renderVolumes}

@@ -3,7 +3,7 @@ import PT from "prop-types";
 import styled from "styled-components";
 
 import PlayItem from "./PlayItem";
-import { audioPropTypes } from "../AudioType";
+import { audioPropTypes } from "../../../types/AudioType";
 
 const List = styled.ul`
   display: flex;
