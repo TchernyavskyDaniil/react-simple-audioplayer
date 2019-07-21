@@ -25,7 +25,6 @@ const ContainerVolumeRange = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  position: relative;
   padding: 8px 0;
 `;
 
@@ -69,8 +68,8 @@ const Controls = ({
   typeAudio,
   setPrevAudio,
   setNextAudio,
-  toggleAudio,
-  isPlayed,
+  toggleAudioStatus,
+  isPlaying,
   setPlayedStatus,
   isOnceAudio,
   audioRef
@@ -153,12 +152,12 @@ const Controls = ({
       );
     }
 
-    if (!isPlayed || audioRef.current.paused) {
+    if (!isPlaying || audioRef.current.paused) {
       audioRef.current.load();
       audioRef.current.play();
+      setPlayedStatus(true);
     }
 
-    setPlayedStatus(true);
     setProgressValue(+e.target.value);
   };
 
@@ -189,15 +188,15 @@ const Controls = ({
     () => (
       <Settings>
         {!isOnceAudio && <ToPrev onClick={setPrevAudio} />}
-        {isPlayed ? (
-          <Pause onClick={() => toggleAudio(true)} />
+        {isPlaying ? (
+          <Pause onClick={() => toggleAudioStatus(true)} />
         ) : (
-          <Play onClick={() => toggleAudio(false)} />
+          <Play onClick={() => toggleAudioStatus(false)} />
         )}
         {!isOnceAudio && <ToNext onClick={setNextAudio} />}
       </Settings>
     ),
-    [isOnceAudio, setPrevAudio, isPlayed, setNextAudio, toggleAudio]
+    [isOnceAudio, setPrevAudio, isPlaying, setNextAudio, toggleAudioStatus]
   );
 
   return (

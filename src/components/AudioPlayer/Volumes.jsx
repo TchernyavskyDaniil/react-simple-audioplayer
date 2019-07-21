@@ -5,8 +5,6 @@ import PT from "prop-types";
 
 const Container = styled.div`
   margin-right: 10px;
-  position: absolute;
-  left: -20px;
 `;
 
 const Volumes = ({ volumeCount, toggleMuteValue }) => (

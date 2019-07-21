@@ -25,8 +25,8 @@ const PlayList = ({
   playlist,
   setActiveAudio,
   setIndexCurrentAudio,
-  toggleAudio,
-  isPlayed
+  toggleAudioStatus,
+  isPlaying
 }) => {
   /**
    * @param currentIndex {number}
@@ -35,7 +35,7 @@ const PlayList = ({
   const getNewActiveAudio = (currentIndex, audioProps) => {
     setIndexCurrentAudio(currentIndex);
     setActiveAudio(audioProps);
-    toggleAudio(isPlayed);
+    toggleAudioStatus(isPlaying);
   };
 
   return (
@@ -61,7 +61,7 @@ const PlayList = ({
 
 PlayList.defaultProps = {
   playlist: [],
-  isPlayed: true
+  isPlaying: true
 };
 
 PlayList.propTypes = {
@@ -72,8 +72,8 @@ PlayList.propTypes = {
   ),
   setActiveAudio: PT.func,
   setIndexCurrentAudio: PT.func,
-  toggleAudio: PT.func,
-  isPlayed: PT.bool
+  toggleAudioStatus: PT.func,
+  isPlaying: PT.bool
 };
 
 export default PlayList;

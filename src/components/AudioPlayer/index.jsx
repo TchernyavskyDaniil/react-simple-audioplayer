@@ -7,20 +7,21 @@ import AudioInfo from "./AudioInfo";
 import PlayList from "./PlayList";
 
 import "./index.css";
+import { device } from "../../stylesConfig/devices";
 
 const Container = styled.div`
   text-align: center;
 `;
 
 const SearchAudio = styled.input`
-  width: 400px;
-  height: 30px;
-  font-size: 20px;
-  padding: 6px;
-  border: 1px solid lightgray;
+  width: auto;
 
-  @media (max-width: 768px) {
-    width: auto;
+  @media screen and ${device.tablet} {
+    width: 400px;
+    height: 30px;
+    font-size: 20px;
+    padding: 6px;
+    border: 1px solid lightgray;
   }
 `;
 
@@ -36,7 +37,7 @@ const AudioPlayer = () => {
   const [sortedPlaylist, setSortedList] = useState([]);
   const [indexCurrentAudio, setIndexCurrentAudio] = useState(0);
   const [activeAudio, setActiveAudio] = useState(null);
-  const [isPlayed, setPlayedStatus] = useState(false);
+  const [isPlaying, setPlayedStatus] = useState(false);
   const [isOnceAudio, setOnceAudioStatus] = useState(false);
   const audioRef = useRef(null);
 
@@ -48,6 +49,9 @@ const AudioPlayer = () => {
     });
   }, []);
 
+  /**
+   * @param index {number}
+   */
   const updateCurrentAudio = index => {
     setIndexCurrentAudio(index);
     setActiveAudio(sortedPlaylist[index]);
@@ -90,8 +94,20 @@ const AudioPlayer = () => {
     }
   };
 
-  const toggleAudio = (isPlayedStatus = false) =>
-    isPlayedStatus ? handlePause() : handlePlay();
+  /**
+   * @param isPlaying {boolean}
+   */
+  const toggleAudioStatus = isPlaying =>
+    isPlaying ? handlePause() : handlePlay();
+
+  /**
+   * @param playlist {Array.<Object>}
+   */
+  const toggleIsOnceAudioStatus = playlist => {
+    playlist.length === 1
+      ? setOnceAudioStatus(true)
+      : setOnceAudioStatus(false);
+  };
 
   // for API - debounce
   const getSortedList = e => {
@@ -106,22 +122,20 @@ const AudioPlayer = () => {
     });
 
     setSortedList(newSortedPlaylist);
-    newSortedPlaylist.length === 1
-      ? setOnceAudioStatus(true)
-      : setOnceAudioStatus(false);
+    toggleIsOnceAudioStatus(newSortedPlaylist);
   };
 
-  const activeAudioCallback = useCallback(() => {
-    setActiveAudio(null);
-    setPlayedStatus(false);
-  }, [activeAudio, isPlayed]);
+  const hideActiveAudio = useCallback(() => setActiveAudio(null), [
+    activeAudio
+  ]);
 
   const handleChangeSorted = e => {
     if (e.target.value.length >= 3) {
-      activeAudioCallback();
+      hideActiveAudio();
       getSortedList(e);
     } else {
       setSortedList(playlist);
+      toggleIsOnceAudioStatus(playlist);
     }
   };
 
@@ -137,8 +151,8 @@ const AudioPlayer = () => {
           {...activeAudio}
           setPrevAudio={setPrevAudio}
           setNextAudio={setNextAudio}
-          toggleAudio={toggleAudio}
-          isPlayed={isPlayed}
+          toggleAudioStatus={toggleAudioStatus}
+          isPlaying={isPlaying}
           setPlayedStatus={setPlayedStatus}
           isOnceAudio={isOnceAudio}
           audioRef={audioRef}
@@ -148,8 +162,8 @@ const AudioPlayer = () => {
         setActiveAudio={setActiveAudio}
         setIndexCurrentAudio={setIndexCurrentAudio}
         playlist={sortedPlaylist}
-        toggleAudio={toggleAudio}
-        isPlayed={isPlayed}
+        toggleAudioStatus={toggleAudioStatus}
+        isPlaying={isPlaying}
       />
     </Container>
   ) : (

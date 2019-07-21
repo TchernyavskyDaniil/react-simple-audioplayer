@@ -36,8 +36,8 @@ export const audioRefTypes = {
 export const audioControlsTypes = {
   setNextAudio: PT.func,
   setPrevAudio: PT.func,
-  toggleAudio: PT.func,
-  isPlayed: PT.bool,
+  toggleAudioStatus: PT.func,
+  isPlaying: PT.bool,
   setPlayedStatus: PT.func,
   isOnceAudio: PT.bool
 };

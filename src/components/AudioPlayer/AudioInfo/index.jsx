@@ -23,8 +23,8 @@ const AudioInfo = ({
   typeAudio,
   setNextAudio,
   setPrevAudio,
-  toggleAudio,
-  isPlayed,
+  toggleAudioStatus,
+  isPlaying,
   setPlayedStatus,
   isOnceAudio,
   audioRef
@@ -37,8 +37,8 @@ const AudioInfo = ({
         typeAudio={typeAudio}
         setNextAudio={setNextAudio}
         setPrevAudio={setPrevAudio}
-        toggleAudio={toggleAudio}
-        isPlayed={isPlayed}
+        toggleAudioStatus={toggleAudioStatus}
+        isPlaying={isPlaying}
         setPlayedStatus={setPlayedStatus}
         isOnceAudio={isOnceAudio}
         audioRef={audioRef}
@@ -49,7 +49,7 @@ const AudioInfo = ({
 
 AudioInfo.defaultProps = {
   ...audioDefaultProps,
-  isPlayed: true,
+  isPlaying: true,
   isOnceAudio: false
 };
 

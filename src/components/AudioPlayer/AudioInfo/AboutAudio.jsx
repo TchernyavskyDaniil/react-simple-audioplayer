@@ -5,10 +5,11 @@ import styledMap from "styled-map";
 
 import { audioDefaultProps, audioPropTypes } from "../../../types/AudioType";
 import { defaultAudioImg } from "../../../utils";
+import { device } from "../../../stylesConfig/devices";
 
 const Image = styled.img`
   width: ${styledMap`
-    isList: 80px;
+    isList: 30%;
     default: 160px;
   `};
   border-radius: ${styledMap`
@@ -16,9 +17,9 @@ const Image = styled.img`
     default: 0;  
   `};
 
-  @media screen and (max-width: 768px) {
+  @media screen and ${device.tablet} {
     width: ${styledMap`
-      isList: 30%;
+      isList: 80px;
       default: 160px;
     `};
   }
@@ -66,7 +67,7 @@ const DescAudio = styled.div`
     default: center;
   `};
 
-  @media screen and (max-width: 768px) {
+  @media screen and ${device.tablet} {
     max-width: 70%;
   }
 `;
