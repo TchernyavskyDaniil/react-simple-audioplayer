@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-  useMemo
-} from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import styled from "styled-components";
 import { FaFastBackward, FaFastForward, FaPause, FaPlay } from "react-icons/fa";
 import PT from "prop-types";
@@ -54,20 +48,24 @@ const Controls = ({
   const [progressValue, setProgressValue] = useState(0);
   const [volumeCount, setVolumeCount] = useState(100);
 
-  const setPlayStatusAudio = () => {
+  const loadNewAudio = () => {
     const newAudio = new Audio(url);
 
     newAudio.load();
-    newAudio.play();
+    newAudio.play().then(() => setAudio(newAudio));
+  };
 
-    setAudio(newAudio);
+  const removeLatestAudio = () => {
+    audio.pause();
+    audio.currentTime = 0;
   };
 
   // When changed audio
   const loadNextAudio = useCallback(() => {
     if (audio) {
-      audio.pause();
-      setPlayStatusAudio();
+      removeLatestAudio();
+
+      loadNewAudio();
       setPlayedStatus(true);
     }
   }, [url]);
@@ -87,8 +85,7 @@ const Controls = ({
     }
   };
 
-  // After DOM
-  useLayoutEffect(() => setPlayStatusAudio(), []);
+  useEffect(() => loadNewAudio(), []);
 
   // Get next audio
   useEffect(() => loadNextAudio(), [loadNextAudio, url]);
@@ -110,7 +107,9 @@ const Controls = ({
     setVolumeCount(e.target.value);
 
     // Max audio volume - 1, min - 0
-    audio.volume = e.target.value / 100;
+    if (audio) {
+      audio.volume = e.target.value / 100;
+    }
   };
 
   const toggleMuteValue = isMute => {
@@ -140,39 +139,36 @@ const Controls = ({
   // Because render Progress Audio every second update value
   const renderVolumes = useMemo(
     () => (
-      <Volumes volumeCount={+volumeCount} toggleMuteValue={toggleMuteValue} />
+      <>
+        <Volumes volumeCount={+volumeCount} toggleMuteValue={toggleMuteValue} />
+        <VolumeRange type="range" onChange={handleValue} value={volumeCount} />
+      </>
     ),
     [volumeCount]
   );
 
+  const renderSettingsAudio = useMemo(
+    () => (
+      <Settings>
+        {console.log("render")}
+        {!isOnceAudio && <FaFastBackward onClick={setPrevAudio} />}
+        {isPlayed ? (
+          <FaPause onClick={() => toggleAudio(true, audio)} />
+        ) : (
+          <FaPlay onClick={() => toggleAudio(false, audio)} />
+        )}
+        {!isOnceAudio && <FaFastForward onClick={setNextAudio} />}
+      </Settings>
+    ),
+    [isOnceAudio, setPrevAudio, isPlayed, setNextAudio, toggleAudio, audio]
+  );
+
   return (
     <AudioControls>
-      <audio
-        id="audio-player"
-        preload="metadata"
-        onLoadedMetadata={setDuration}
-      >
-        <source src={url} type="audio/ogg" />
-      </audio>
       {audio && (
         <>
-          <Settings>
-            {!isOnceAudio && <FaFastBackward onClick={setPrevAudio} />}
-            {isPlayed ? (
-              <FaPause onClick={() => toggleAudio(true, audio)} />
-            ) : (
-              <FaPlay onClick={() => toggleAudio(false, audio)} />
-            )}
-            {!isOnceAudio && <FaFastForward onClick={setNextAudio} />}
-          </Settings>
-          <ContainerVolumeRange>
-            {renderVolumes}
-            <VolumeRange
-              type="range"
-              onChange={handleValue}
-              value={volumeCount}
-            />
-          </ContainerVolumeRange>
+          {renderSettingsAudio}
+          <ContainerVolumeRange>{renderVolumes}</ContainerVolumeRange>
           {renderProgressAudio}
         </>
       )}
