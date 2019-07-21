@@ -150,7 +150,6 @@ const Controls = ({
   const renderSettingsAudio = useMemo(
     () => (
       <Settings>
-        {console.log("render")}
         {!isOnceAudio && <FaFastBackward onClick={setPrevAudio} />}
         {isPlayed ? (
           <FaPause onClick={() => toggleAudio(true, audio)} />
