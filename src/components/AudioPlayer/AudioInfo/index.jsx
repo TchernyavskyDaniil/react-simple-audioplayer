@@ -21,7 +21,8 @@ const AudioInfo = ({
   toggleAudio,
   isPlayed,
   setPlayedStatus,
-  isOnceAudio
+  isOnceAudio,
+  audioRef
 }) => {
   return (
     <Container>
@@ -34,6 +35,7 @@ const AudioInfo = ({
         isPlayed={isPlayed}
         setPlayedStatus={setPlayedStatus}
         isOnceAudio={isOnceAudio}
+        audioRef={audioRef}
       />
     </Container>
   );

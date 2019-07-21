@@ -1,10 +1,12 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import styled from "styled-components";
 
 import { fakeFetchPlaylist } from "../../store/mockList";
 
 import AudioInfo from "./AudioInfo";
 import PlayList from "./PlayList";
+
+import "./customAudioStyles.css";
 
 const Container = styled.div`
   text-align: center;
@@ -15,6 +17,7 @@ const SearchAudio = styled.input`
   height: 30px;
   font-size: 20px;
   padding: 6px;
+  border: 1px solid lightgray;
 
   @media (max-width: 768px) {
     width: auto;
@@ -35,6 +38,7 @@ const AudioPlayer = () => {
   const [activeAudio, setActiveAudio] = useState(null);
   const [isPlayed, setPlayedStatus] = useState(false);
   const [isOnceAudio, setOnceAudioStatus] = useState(false);
+  const audioRef = useRef(null);
 
   // Did mount
   useEffect(() => {
@@ -72,22 +76,22 @@ const AudioPlayer = () => {
     updateCurrentAudio(indexOfPrevAudio);
   };
 
-  const handlePlay = audio => {
+  const handlePlay = () => {
     setPlayedStatus(true);
-    if (audio) {
-      audio.play();
+    if (audioRef.current) {
+      audioRef.current.play();
     }
   };
 
-  const handlePause = audio => {
+  const handlePause = () => {
     setPlayedStatus(false);
-    if (audio) {
-      audio.pause();
+    if (audioRef.current) {
+      audioRef.current.pause();
     }
   };
 
-  const toggleAudio = (isPlayedStatus = false, audio) =>
-    isPlayedStatus ? handlePause(audio) : handlePlay(audio);
+  const toggleAudio = (isPlayedStatus = false) =>
+    isPlayedStatus ? handlePause() : handlePlay();
 
   // for API - debounce
   const getSortedList = e => {
@@ -137,6 +141,7 @@ const AudioPlayer = () => {
           isPlayed={isPlayed}
           setPlayedStatus={setPlayedStatus}
           isOnceAudio={isOnceAudio}
+          audioRef={audioRef}
         />
       )}
       <PlayList

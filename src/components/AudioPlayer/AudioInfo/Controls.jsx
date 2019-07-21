@@ -40,52 +40,41 @@ const Controls = ({
   toggleAudio,
   isPlayed,
   setPlayedStatus,
-  isOnceAudio
+  isOnceAudio,
+  audioRef
 }) => {
-  const [audio, setAudio] = useState(null);
   const [audioDuration, setAudioDuration] = useState("0:00");
   const [currentTime, setCurrentTime] = useState("0:00");
   const [progressValue, setProgressValue] = useState(0);
   const [volumeCount, setVolumeCount] = useState(100);
 
-  const loadNewAudio = () => {
-    const newAudio = new Audio(url);
-
-    newAudio.load();
-    newAudio.play().then(() => setAudio(newAudio));
-  };
-
-  const removeLatestAudio = () => {
-    audio.pause();
-    audio.currentTime = 0;
-  };
-
   // When changed audio
   const loadNextAudio = useCallback(() => {
-    if (audio) {
-      removeLatestAudio();
+    if (audioRef.current) {
+      audioRef.current.load();
+      audioRef.current.play();
 
-      loadNewAudio();
       setPlayedStatus(true);
     }
   }, [url]);
 
   const setDuration = useCallback(() => {
-    if (audio && audio.duration) {
-      setAudioDuration(fancyTimeFormat(audio.duration));
+    if (audioRef.current.duration) {
+      setAudioDuration(fancyTimeFormat(audioRef.current.duration));
     }
-  }, [audio]);
+  }, [audioRef.current]);
 
   const updateCurrentTime = () => {
-    if (audio) {
-      const value = Math.floor((audio.currentTime / audio.duration) * 100) | 0;
+    if (audioRef.current) {
+      const value =
+        Math.floor(
+          (audioRef.current.currentTime / audioRef.current.duration) * 100
+        ) | 0;
 
-      setCurrentTime(fancyTimeFormat(audio.currentTime));
+      setCurrentTime(fancyTimeFormat(audioRef.current.currentTime));
       setProgressValue(value);
     }
   };
-
-  useEffect(() => loadNewAudio(), []);
 
   // Get next audio
   useEffect(() => loadNextAudio(), [loadNextAudio, url]);
@@ -97,18 +86,18 @@ const Controls = ({
       setPlayedStatus(false);
     }
 
-    if (audio) {
+    if (audioRef.current) {
       setDuration();
-      audio.ontimeupdate = () => updateCurrentTime();
+      audioRef.current.ontimeupdate = () => updateCurrentTime();
     }
-  }, [audio, audioDuration, currentTime]);
+  }, [audioRef.current, audioDuration, currentTime]);
 
   const handleValue = e => {
     setVolumeCount(e.target.value);
 
     // Max audio volume - 1, min - 0
-    if (audio) {
-      audio.volume = e.target.value / 100;
+    if (audioRef.current) {
+      audioRef.current.volume = e.target.value / 100;
     }
   };
 
@@ -116,11 +105,12 @@ const Controls = ({
     const value = isMute ? 0 : 100;
 
     setVolumeCount(value);
-    audio.volume = value / 100;
+    audioRef.current.volume = value / 100;
   };
 
   const changeValueAudio = e => {
-    audio.currentTime = (progressValue * audio.duration) / 100;
+    audioRef.current.currentTime =
+      (progressValue * audioRef.current.duration) / 100;
     setProgressValue(+e.target.value);
   };
 
@@ -152,19 +142,29 @@ const Controls = ({
       <Settings>
         {!isOnceAudio && <FaFastBackward onClick={setPrevAudio} />}
         {isPlayed ? (
-          <FaPause onClick={() => toggleAudio(true, audio)} />
+          <FaPause onClick={() => toggleAudio(true, audioRef.current)} />
         ) : (
-          <FaPlay onClick={() => toggleAudio(false, audio)} />
+          <FaPlay onClick={() => toggleAudio(false, audioRef.current)} />
         )}
         {!isOnceAudio && <FaFastForward onClick={setNextAudio} />}
       </Settings>
     ),
-    [isOnceAudio, setPrevAudio, isPlayed, setNextAudio, toggleAudio, audio]
+    [
+      isOnceAudio,
+      setPrevAudio,
+      isPlayed,
+      setNextAudio,
+      toggleAudio,
+      audioRef.current
+    ]
   );
 
   return (
     <AudioControls>
-      {audio && (
+      <audio ref={audioRef} id="audio-player" preload="auto">
+        <source src={url} type="audio/mp3" />
+      </audio>
+      {audioRef.current && (
         <>
           {renderSettingsAudio}
           <ContainerVolumeRange>{renderVolumes}</ContainerVolumeRange>

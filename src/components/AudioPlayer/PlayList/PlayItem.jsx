@@ -24,6 +24,7 @@ const Container = styled.li`
 
 const PlayItem = ({ id, title, author, img, url, getNewActiveAudio }) => (
   <Container
+    id="button"
     onClick={() => getNewActiveAudio(id - 1, { title, author, img, url })}
   >
     <AboutAudio title={title} author={author} img={img} isList />
