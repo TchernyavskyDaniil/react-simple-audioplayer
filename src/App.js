@@ -1,21 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import Player from "./Player";
+import Header from "./layout/Header";
+import Main from "./layout/Main";
+import Footer from "./layout/Footer";
 
-const App = () => {
-  return (
-    <div>
-      <header>
-        <span> header audio player </span>
-      </header>
-      <main>
-        <Player />
-      </main>
-      <footer>
-        <span> audio player footer </span>
-      </footer>
-    </div>
-  );
-};
+const App = () => (
+  <>
+    <Header />
+    <Main />
+    <Footer />
+  </>
+);
 
 export default App;

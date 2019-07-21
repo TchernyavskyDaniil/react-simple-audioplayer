@@ -4,16 +4,28 @@
   "private": true,
   "dependencies": {
     "normalize.css": "^8.0.1",
-    "now": "^15.5.0",
+    "now": "^15.8.5",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-facebook-login": "^4.1.1",
     "react-helmet": "^5.2.1",
     "react-icons": "^3.7.0",
     "react-scripts": "3.0.1",
     "styled-components": "^4.3.2",
     "styled-map": "^3.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^5.0.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.13.0",
+    "husky": "^2.4.1",
+    "lint-staged": "^8.2.1",
+    "prettier": "^1.18.2",
+    "prettier-stylelint": "^0.4.2"
   },
   "scripts": {
     "start": "HTTPS=true react-scripts start",
@@ -39,29 +51,10 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-prettier": "^5.0.0",
-    "eslint-plugin-import": "^2.17.3",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-prettier": "^3.1.0",
-    "eslint-plugin-react": "^7.13.0",
-    "husky": "^2.4.1",
-    "lint-staged": "^8.2.1",
-    "prettier": "^1.18.2",
-    "prettier-stylelint": "^0.4.2"
-  }
+  "browserslist": [
+    ">0.20%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
