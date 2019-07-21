@@ -116,19 +116,11 @@ const AudioPlayer = () => {
     setPlayedStatus(false);
   }, [activeAudio, isPlayed]);
 
-  const handleSearchKeyDown = e => {
-    const key = e.keyCode || e.charCode;
-
-    if (key === 8 || key === 46) {
-      setSortedList(playlist);
-    }
-  };
-
   const handleChangeSorted = e => {
     if (e.target.value.length >= 3) {
       activeAudioCallback();
       getSortedList(e);
-    } else if (!e.target.value.length) {
+    } else {
       setSortedList(playlist);
     }
   };
@@ -138,7 +130,6 @@ const AudioPlayer = () => {
       <SearchAudio
         type="text"
         onChange={handleChangeSorted}
-        onKeyDown={handleSearchKeyDown}
         placeholder="Let's search!"
       />
       {activeAudio && (
