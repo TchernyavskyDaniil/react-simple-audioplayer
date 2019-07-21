@@ -78,6 +78,7 @@ const Controls = ({
   const [currentTime, setCurrentTime] = useState("0:00");
   const [progressValue, setProgressValue] = useState(0);
   const [volumeCount, setVolumeCount] = useState(100);
+  const [isChangedRange, setIsChangedRange] = useState(false);
 
   // When changed audio
   const loadNextAudio = useCallback(() => {
@@ -102,8 +103,10 @@ const Controls = ({
           (audioRef.current.currentTime / audioRef.current.duration) * 100
         ) | 0;
 
-      setCurrentTime(fancyTimeFormat(audioRef.current.currentTime));
-      setProgressValue(value);
+      if (!isChangedRange) {
+        setCurrentTime(fancyTimeFormat(audioRef.current.currentTime));
+        setProgressValue(value);
+      }
     }
   };
 
@@ -119,7 +122,6 @@ const Controls = ({
 
     if (audioRef.current) {
       setDuration();
-      audioRef.current.ontimeupdate = () => updateCurrentTime();
     }
   }, [audioRef.current, audioDuration, currentTime]);
 
@@ -146,10 +148,16 @@ const Controls = ({
   );
 
   const changeValueAudio = e => {
+    // Audio have onTimeUpdate, need to stop generate value 0;
+    // Seems like spike :)
+    setIsChangedRange(true);
+
     if (audioRef.current.duration) {
       audioRef.current.currentTime = getPartOfValue(
         progressValue * audioRef.current.duration
       );
+
+      setProgressValue(+e.target.value);
     }
 
     if (!isPlaying || audioRef.current.paused) {
@@ -158,7 +166,7 @@ const Controls = ({
       setPlayedStatus(true);
     }
 
-    setProgressValue(+e.target.value);
+    setTimeout(() => setIsChangedRange(false), 100);
   };
 
   const renderProgressAudio = useMemo(
@@ -201,7 +209,12 @@ const Controls = ({
 
   return (
     <AudioControls>
-      <audio ref={audioRef} id="audio-player" preload="auto">
+      <audio
+        ref={audioRef}
+        id="audio-player"
+        preload="auto"
+        onTimeUpdate={updateCurrentTime}
+      >
         <source src={url} type={`audio/${typeAudio}`} />
       </audio>
       {audioRef.current && (

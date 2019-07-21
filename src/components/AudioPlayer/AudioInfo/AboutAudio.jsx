@@ -27,12 +27,12 @@ const Image = styled.img`
 
 const Title = styled.span`
   font-size: ${styledMap`
-    isList: 16px;
-    default: 20px;
+    isList: 20px;
+    default: 24px;
   `};
   line-height: ${styledMap`
-    isList: 18px;
-    default: 22px;
+    isList: 22px;
+    default: 26px;
   `};
   transition: 0.4s ease color;
 `;

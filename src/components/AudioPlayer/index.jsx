@@ -15,13 +15,13 @@ const Container = styled.div`
 
 const SearchAudio = styled.input`
   width: auto;
+  height: 30px;
+  font-size: 20px;
+  padding: 6px;
+  border: 1px solid lightgray;
 
   @media screen and ${device.tablet} {
     width: 400px;
-    height: 30px;
-    font-size: 20px;
-    padding: 6px;
-    border: 1px solid lightgray;
   }
 `;
 
@@ -125,13 +125,14 @@ const AudioPlayer = () => {
     toggleIsOnceAudioStatus(newSortedPlaylist);
   };
 
-  const hideActiveAudio = useCallback(() => setActiveAudio(null), [
-    activeAudio
-  ]);
+  const setNewActiveAudioCallback = useCallback(() => {
+    setActiveAudio(null);
+    setPlayedStatus(false);
+  }, [activeAudio, isPlaying]);
 
   const handleChangeSorted = e => {
     if (e.target.value.length >= 3) {
-      hideActiveAudio();
+      setNewActiveAudioCallback();
       getSortedList(e);
     } else {
       setSortedList(playlist);
