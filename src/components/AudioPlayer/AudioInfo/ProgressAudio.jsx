@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import PT from "prop-types";
 
@@ -26,6 +26,7 @@ const ProgressAudio = ({
   changeValueAudio
 }) => (
   <Container>
+    {console.log("render")}
     <Counter> {currentTime} </Counter>
     <ProgressRange
       type="range"

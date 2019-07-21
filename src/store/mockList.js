@@ -1,5 +1,3 @@
-import { defaultAudioImg } from "../utils";
-
 const mockPlaylist = [
   {
     id: 1,
@@ -7,7 +5,8 @@ const mockPlaylist = [
     author: "First author",
     url:
       "https://sampleswap.org/samples-ghost/DRUM%20LOOPS%20and%20BREAKS/000%20to%20080%20bpm/827[kb]050_barbituate-beat.wav.mp3",
-    img: defaultAudioImg
+    typeAudio: "mp3",
+    img: null
   },
   {
     id: 2,
@@ -15,7 +14,8 @@ const mockPlaylist = [
     author: "Second author",
     url:
       "https://sampleswap.org/samples-ghost/DRUM%20LOOPS%20and%20BREAKS/000%20to%20080%20bpm/1658[kb]050_glitch-hop-serenade.aif.mp3",
-    img: defaultAudioImg
+    typeAudio: "mp3",
+    img: null
   },
   {
     id: 3,
@@ -23,7 +23,8 @@ const mockPlaylist = [
     author: "Third author",
     url:
       "https://sampleswap.org/samples-ghost/DRUM%20LOOPS%20and%20BREAKS/000%20to%20080%20bpm/819[kb]050_udu_groove-1.aif.mp3",
-    img: defaultAudioImg
+    typeAudio: "mp3",
+    img: null
   },
   {
     id: 4,
@@ -31,7 +32,8 @@ const mockPlaylist = [
     author: "Fourth author",
     url:
       "https://sampleswap.org/samples-ghost/MELODIC%20LOOPS/VOCAL%20OR%20VOXY%20LOOPS/1175[kb]141_illusion-echo-vox.wav.mp3",
-    img: defaultAudioImg
+    typeAudio: "mp3",
+    img: null
   },
   {
     id: 5,
@@ -39,7 +41,8 @@ const mockPlaylist = [
     author: "HARVESTERED",
     url:
       "https://sampleswap.org/mp3/artist/28165/harvestfred_-PRIMAVARA--160.mp3",
-    img: defaultAudioImg
+    typeAudio: "mp3",
+    img: null
   },
   {
     id: 6,
@@ -47,7 +50,8 @@ const mockPlaylist = [
     author: "Some author",
     url:
       "https://sampleswap.org/mp3/artist/25093/Mark-Phillips_Annas-Logbook2-160.mp3",
-    img: defaultAudioImg
+    typeAudio: "mp3",
+    img: null
   }
 ];
 

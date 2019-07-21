@@ -4,6 +4,7 @@ import PT from "prop-types";
 import styledMap from "styled-map";
 
 import { audioDefaultProps, audioPropTypes } from "../../../types/AudioType";
+import { defaultAudioImg } from "../../../utils";
 
 const Image = styled.img`
   width: ${styledMap`
@@ -76,7 +77,12 @@ const AboutAudio = ({ title, author, img, isList }) => (
       <Title isList={isList}> {title} </Title>
       <Author isList={isList}> {author} </Author>
     </DescAudio>
-    <Image src={img} isList={isList} />
+    <Image
+      src={img || defaultAudioImg}
+      isList={isList}
+      alt={`${title}, ${author}`}
+      title={`${title}, ${author}`}
+    />
   </Container>
 );
 

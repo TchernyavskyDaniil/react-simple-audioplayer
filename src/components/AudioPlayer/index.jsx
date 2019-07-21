@@ -129,7 +129,7 @@ const AudioPlayer = () => {
     <Container>
       <SearchAudio
         type="text"
-        onChange={handleChangeSorted}
+        onKeyDown={handleChangeSorted}
         placeholder="Let's search!"
       />
       {activeAudio && (

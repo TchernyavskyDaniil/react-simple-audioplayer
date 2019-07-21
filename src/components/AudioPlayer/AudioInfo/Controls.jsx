@@ -1,12 +1,17 @@
 import React, { useCallback, useEffect, useState, useMemo } from "react";
 import styled from "styled-components";
 import { FaFastBackward, FaFastForward, FaPause, FaPlay } from "react-icons/fa";
-import PT from "prop-types";
 
-import { fancyTimeFormat } from "../../../utils";
+import { fancyTimeFormat, getPartOfValue } from "../../../utils";
 
 import ProgressAudio from "./ProgressAudio";
 import Volumes from "../Volumes";
+import {
+  audioControlsTypes,
+  audioDefaultProps,
+  audioPropTypes,
+  audioRefTypes
+} from "../../../types/AudioType";
 
 const AudioControls = styled.div`
   display: flex;
@@ -20,6 +25,7 @@ const ContainerVolumeRange = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  position: relative;
   padding: 8px 0;
 `;
 
@@ -31,10 +37,36 @@ const Settings = styled.div`
   display: flex;
   justify-content: space-around;
   width: 100px;
+  cursor: pointer;
+`;
+
+const ToPrev = styled(FaFastBackward)`
+  &:hover {
+    color: #656565;
+  }
+`;
+
+const Pause = styled(FaPause)`
+  &:hover {
+    color: #656565;
+  }
+`;
+
+const Play = styled(FaPlay)`
+  &:hover {
+    color: #656565;
+  }
+`;
+
+const ToNext = styled(FaFastForward)`
+  &:hover {
+    color: #656565;
+  }
 `;
 
 const Controls = ({
   url,
+  typeAudio,
   setPrevAudio,
   setNextAudio,
   toggleAudio,
@@ -92,25 +124,41 @@ const Controls = ({
     }
   }, [audioRef.current, audioDuration, currentTime]);
 
-  const handleValue = e => {
-    setVolumeCount(e.target.value);
+  const handleValue = useCallback(
+    e => {
+      setVolumeCount(e.target.value);
 
-    // Max audio volume - 1, min - 0
-    if (audioRef.current) {
-      audioRef.current.volume = e.target.value / 100;
-    }
-  };
+      // Max audio volume - 1, min - 0
+      if (audioRef.current) {
+        audioRef.current.volume = getPartOfValue(e.target.value);
+      }
+    },
+    [audioRef]
+  );
 
-  const toggleMuteValue = isMute => {
-    const value = isMute ? 0 : 100;
+  const toggleMuteValue = useCallback(
+    isMute => {
+      const value = isMute ? 0 : 100;
 
-    setVolumeCount(value);
-    audioRef.current.volume = value / 100;
-  };
+      setVolumeCount(value);
+      audioRef.current.volume = getPartOfValue(value);
+    },
+    [audioRef]
+  );
 
   const changeValueAudio = e => {
-    audioRef.current.currentTime =
-      (progressValue * audioRef.current.duration) / 100;
+    if (audioRef.current.duration) {
+      audioRef.current.currentTime = getPartOfValue(
+        progressValue * audioRef.current.duration
+      );
+    }
+
+    if (!isPlayed || audioRef.current.paused) {
+      audioRef.current.load();
+      audioRef.current.play();
+    }
+
+    setPlayedStatus(true);
     setProgressValue(+e.target.value);
   };
 
@@ -134,35 +182,28 @@ const Controls = ({
         <VolumeRange type="range" onChange={handleValue} value={volumeCount} />
       </>
     ),
-    [volumeCount]
+    [handleValue, toggleMuteValue, volumeCount]
   );
 
   const renderSettingsAudio = useMemo(
     () => (
       <Settings>
-        {!isOnceAudio && <FaFastBackward onClick={setPrevAudio} />}
+        {!isOnceAudio && <ToPrev onClick={setPrevAudio} />}
         {isPlayed ? (
-          <FaPause onClick={() => toggleAudio(true, audioRef.current)} />
+          <Pause onClick={() => toggleAudio(true)} />
         ) : (
-          <FaPlay onClick={() => toggleAudio(false, audioRef.current)} />
+          <Play onClick={() => toggleAudio(false)} />
         )}
-        {!isOnceAudio && <FaFastForward onClick={setNextAudio} />}
+        {!isOnceAudio && <ToNext onClick={setNextAudio} />}
       </Settings>
     ),
-    [
-      isOnceAudio,
-      setPrevAudio,
-      isPlayed,
-      setNextAudio,
-      toggleAudio,
-      audioRef.current
-    ]
+    [isOnceAudio, setPrevAudio, isPlayed, setNextAudio, toggleAudio]
   );
 
   return (
     <AudioControls>
       <audio ref={audioRef} id="audio-player" preload="auto">
-        <source src={url} type="audio/mp3" />
+        <source src={url} type={`audio/${typeAudio}`} />
       </audio>
       {audioRef.current && (
         <>
@@ -176,13 +217,13 @@ const Controls = ({
 };
 
 Controls.defaultProps = {
-  url: ""
+  ...audioDefaultProps
 };
 
 Controls.propTypes = {
-  url: PT.string,
-  setPrevAudio: PT.func,
-  setNextAudio: PT.func
+  ...audioPropTypes,
+  ...audioRefTypes,
+  ...audioControlsTypes
 };
 
 export default Controls;

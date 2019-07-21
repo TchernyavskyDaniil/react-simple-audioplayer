@@ -10,8 +10,8 @@ const Container = styled.footer`
 
 const LinkTo = styled.a`
   color: black;
-  font-size: 18px;
-  line-height: 18px;
+  font-size: 24px;
+  line-height: 26px;
   text-decoration: none;
   transition: 0.4s ease opacity;
 

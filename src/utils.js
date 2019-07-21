@@ -23,6 +23,8 @@ export const defaultAudioImg =
 export const urlToGithub =
   "https://github.com/TchernyavskyDaniil/react-simple-audioplayer";
 
+export const getPartOfValue = value => value / 100;
+
 export function debounce(f, t) {
   return function(args) {
     let previousCall = this.lastCall;

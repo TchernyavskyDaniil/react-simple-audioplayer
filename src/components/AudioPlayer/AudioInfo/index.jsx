@@ -1,10 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import PT from "prop-types";
 
 import Controls from "./Controls";
 import AboutAudio from "./AboutAudio";
-import { audioDefaultProps, audioPropTypes } from "../../../types/AudioType";
+import {
+  audioControlsTypes,
+  audioDefaultProps,
+  audioPropTypes,
+  audioRefTypes
+} from "../../../types/AudioType";
 
 const Container = styled.section`
   min-height: 200px;
@@ -16,6 +20,7 @@ const AudioInfo = ({
   author,
   url,
   img,
+  typeAudio,
   setNextAudio,
   setPrevAudio,
   toggleAudio,
@@ -29,6 +34,7 @@ const AudioInfo = ({
       <AboutAudio title={title} img={img} author={author} />
       <Controls
         url={url}
+        typeAudio={typeAudio}
         setNextAudio={setNextAudio}
         setPrevAudio={setPrevAudio}
         toggleAudio={toggleAudio}
@@ -49,12 +55,8 @@ AudioInfo.defaultProps = {
 
 AudioInfo.propTypes = {
   ...audioPropTypes,
-  setNextAudio: PT.func,
-  setPrevAudio: PT.func,
-  toggleAudio: PT.func,
-  isPlayed: PT.bool,
-  setPlayedStatus: PT.func,
-  isOnceAudio: PT.bool
+  ...audioControlsTypes,
+  ...audioRefTypes
 };
 
 export default AudioInfo;

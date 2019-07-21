@@ -1,6 +1,6 @@
 input[type=range] {
     -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
-    width: 100%; /* Specific width is required for Firefox. */
+    width: 140px; /* Specific width is required for Firefox. */
     background: transparent; /* Otherwise white in Chrome */
 }
 
@@ -13,7 +13,7 @@ input[type=range]:focus {
 }
 
 input[type=range]::-ms-track {
-    width: 100%;
+    width: 140px;
     cursor: pointer;
 
     /* Hides the slider so custom styles can be added */
@@ -58,7 +58,7 @@ input[type=range]::-ms-thumb {
 }
 
 input[type=range]::-webkit-slider-runnable-track {
-    width: 100%;
+    width: 140px;
     height: 5px;
     cursor: pointer;
     box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
@@ -72,7 +72,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 }
 
 input[type=range]::-moz-range-track {
-    width: 100%;
+    width: 140px;
     height: 5px;
     cursor: pointer;
     box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
@@ -82,7 +82,7 @@ input[type=range]::-moz-range-track {
 }
 
 input[type=range]::-ms-track {
-    width: 100%;
+    width: 140px;
     height: 5px;
     cursor: pointer;
     background: transparent;
