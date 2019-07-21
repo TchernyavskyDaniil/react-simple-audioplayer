@@ -26,7 +26,6 @@ const ProgressAudio = ({
   changeValueAudio
 }) => (
   <Container>
-    {console.log("render")}
     <Counter> {currentTime} </Counter>
     <ProgressRange
       type="range"
