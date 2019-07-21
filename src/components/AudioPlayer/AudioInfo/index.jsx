@@ -1,14 +1,16 @@
 import React from "react";
 import styled from "styled-components";
+import { Helmet } from "react-helmet";
 
-import Controls from "./Controls";
-import AboutAudio from "./AboutAudio";
 import {
   audioControlsTypes,
   audioDefaultProps,
   audioPropTypes,
   audioRefTypes
 } from "../../../types/AudioType";
+
+import Controls from "./Controls";
+import AboutAudio from "./AboutAudio";
 
 const Container = styled.section`
   min-height: 200px;
@@ -31,6 +33,9 @@ const AudioInfo = ({
 }) => {
   return (
     <Container>
+      <Helmet>
+        <title> {`${title}, ${author}`} </title>
+      </Helmet>
       <AboutAudio title={title} img={img} author={author} />
       <Controls
         url={url}

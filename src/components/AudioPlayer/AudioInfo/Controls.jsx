@@ -3,15 +3,15 @@ import styled from "styled-components";
 import { FaFastBackward, FaFastForward, FaPause, FaPlay } from "react-icons/fa";
 
 import { fancyTimeFormat, getPartOfValue } from "../../../utils";
-
-import ProgressAudio from "./ProgressAudio";
-import Volumes from "../Volumes";
 import {
   audioControlsTypes,
   audioDefaultProps,
   audioPropTypes,
   audioRefTypes
 } from "../../../types/AudioType";
+
+import ProgressAudio from "./ProgressAudio";
+import Volumes from "../Volumes";
 
 const AudioControls = styled.div`
   display: flex;
@@ -125,7 +125,7 @@ const Controls = ({
     }
   }, [audioRef.current, audioDuration, currentTime]);
 
-  const handleValue = useCallback(
+  const changeRangeValue = useCallback(
     e => {
       setVolumeCount(e.target.value);
 
@@ -134,7 +134,7 @@ const Controls = ({
         audioRef.current.volume = getPartOfValue(e.target.value);
       }
     },
-    [audioRef]
+    [audioRef.current]
   );
 
   const toggleMuteValue = useCallback(
@@ -147,7 +147,7 @@ const Controls = ({
     [audioRef]
   );
 
-  const changeValueAudio = e => {
+  const changeProgressValue = e => {
     // Audio have onTimeUpdate, need to stop generate value 0;
     // Seems like spike :)
     setIsChangedRange(true);
@@ -175,7 +175,7 @@ const Controls = ({
         audioDuration={audioDuration}
         currentTime={currentTime}
         progressValue={progressValue}
-        changeValueAudio={changeValueAudio}
+        changeProgressValue={changeProgressValue}
       />
     ),
     [audioDuration, currentTime, progressValue]
@@ -186,10 +186,14 @@ const Controls = ({
     () => (
       <>
         <Volumes volumeCount={+volumeCount} toggleMuteValue={toggleMuteValue} />
-        <VolumeRange type="range" onChange={handleValue} value={volumeCount} />
+        <VolumeRange
+          type="range"
+          onChange={changeRangeValue}
+          value={volumeCount}
+        />
       </>
     ),
-    [handleValue, toggleMuteValue, volumeCount]
+    [changeRangeValue, toggleMuteValue, volumeCount]
   );
 
   const renderSettingsAudio = useMemo(

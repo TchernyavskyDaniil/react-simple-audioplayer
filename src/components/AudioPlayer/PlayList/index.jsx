@@ -2,8 +2,8 @@ import React from "react";
 import PT from "prop-types";
 import styled from "styled-components";
 
-import PlayItem from "./PlayItem";
 import { audioPropTypes } from "../../../types/AudioType";
+import PlayItem from "./PlayItem";
 
 const List = styled.ul`
   display: flex;

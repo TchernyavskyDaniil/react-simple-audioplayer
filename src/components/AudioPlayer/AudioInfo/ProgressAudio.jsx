@@ -23,15 +23,15 @@ const ProgressAudio = ({
   audioDuration,
   currentTime,
   progressValue,
-  changeValueAudio
+  changeProgressValue
 }) => (
   <Container>
     <Counter> {currentTime} </Counter>
     <ProgressRange
       type="range"
       value={progressValue}
-      onChange={changeValueAudio}
-      onClick={changeValueAudio}
+      onChange={changeProgressValue}
+      onClick={changeProgressValue}
     />
     <Counter> {audioDuration} </Counter>
   </Container>
@@ -47,7 +47,7 @@ ProgressAudio.propTypes = {
   audioDuration: PT.string,
   currentTime: PT.string,
   progressValue: PT.number,
-  changeValueAudio: PT.func
+  changeProgressValue: PT.func
 };
 
 export default ProgressAudio;

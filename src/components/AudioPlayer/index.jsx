@@ -2,12 +2,12 @@ import React, { useEffect, useState, useCallback, useRef } from "react";
 import styled from "styled-components";
 
 import { fakeFetchPlaylist } from "../../store/mockList";
+import { device } from "../../stylesConfig/devices";
 
 import AudioInfo from "./AudioInfo";
 import PlayList from "./PlayList";
 
 import "./index.css";
-import { device } from "../../stylesConfig/devices";
 
 const Container = styled.div`
   text-align: center;
