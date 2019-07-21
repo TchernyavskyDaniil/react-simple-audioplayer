@@ -53,7 +53,7 @@ const PlayList = ({
           />
         ))
       ) : (
-        <AudioNotFound> No audio records found </AudioNotFound>
+        <AudioNotFound> Audio records not found </AudioNotFound>
       )}
     </List>
   );

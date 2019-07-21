@@ -6,7 +6,7 @@ import { fakeFetchPlaylist } from "../../store/mockList";
 import AudioInfo from "./AudioInfo";
 import PlayList from "./PlayList";
 
-import "./customAudioStyles.css";
+import "./index.css";
 
 const Container = styled.div`
   text-align: center;
